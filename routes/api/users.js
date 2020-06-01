@@ -1,13 +1,18 @@
-const express = require('express')
-const Router = express.Router()
+import express from 'express'
+import bcrypt from 'bcryptjs'
+import jwt from 'jsonwebtoken'
+import config from '../../config/keys.js'
+import auth from '../../middleware/auth.js'
 
 // User Modal
-const User = require('../../models/User')
+import User from '../../models/User.js'
+
+const Router = express.Router()
 
 // @route   GET api/users
 // @desc    Get all users
-// @access  Public
-Router.get('/', async (req, res) => {
+// @access  Private
+Router.get('/', auth, async (req, res) => {
     try {
         const users = await User.find()
         users.sort((a, b) => {
@@ -15,32 +20,14 @@ Router.get('/', async (req, res) => {
         })
         res.json(users)
     } catch(err) {
-        res.status(400).json({ msg: err.toString() })
-    }
-})
-
-// @route   POST api/users
-// @desc    Create a user
-// @access  Public
-Router.post('/', async (req, res) => {
-    try {
-        const newUser = new User({
-            username: req.body.username,
-            password: req.body.password,
-            firstName: req.body.firstName,
-            lastName: req.body.lastName,
-            admin: req.body.admin
-        })
-        res.json(await newUser.save())
-    } catch(err) {
-        res.status(400).json({ msg: err.toString() })
+        res.status(400).json({ msg: err.message })
     }
 })
 
 // @route   UPDATE api/users
 // @desc    Update a user
-// @access  Public
-Router.post('/:id', async (req, res) => {
+// @access  Private
+Router.post('/:id', auth, async (req, res) => {
     try {
         const updateUser = {
             username: req.body.username,
@@ -55,19 +42,19 @@ Router.post('/:id', async (req, res) => {
             { new: true }
         ))
     } catch(err) {
-        res.status(400).json({ msg: err.toString() })
+        res.status(400).json({ msg: err.message })
     }
 })
 
 // @route   DELETE api/users
 // @desc    Delete a user
-// @access  Public
-Router.delete('/:id', async (req, res) => {
+// @access  Private
+Router.delete('/:id', auth, async (req, res) => {
     try {
         res.json(await User.findOneAndDelete({ _id: req.params.id }))
     } catch(err) {
-        res.status(400).json({ msg: err.toString() })
+        res.status(400).json({ msg: err.message })
     }
 })
 
-module.exports = Router
+export default Router

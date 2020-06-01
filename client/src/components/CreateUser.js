@@ -14,19 +14,22 @@ import {
     Alert,
     Button,
     CardFooter,
+    FormText,
 } from 'reactstrap'
 import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
 
-const Settings = (props) => {
-    const loadedUser = props.user
+import { register } from '../actions/authActions'
+import { returnErrors, clearErrors } from '../actions/errorActions'
+
+const CreateUser = (props) => {
     const [user, setUser] = useState({
-        username: loadedUser?.username || '',
-        password: 'password',
-        confirmPassword: 'password',
-        firstName: loadedUser?.firstName || '',
-        lastName: loadedUser?.lastName || '',
-        email: loadedUser?.email || '',
-        admin: loadedUser?.admin || false,
+        username: '',
+        password: '',
+        confirmPassword: '',
+        firstName: '',
+        lastName: '',
+        email: '',
     })
 
     const onChange = (e) => {
@@ -36,14 +39,7 @@ const Settings = (props) => {
         })
     }
 
-    const onChangeCheckbox = (e) => {
-        setUser({
-            ...user,
-            admin: !user.admin,
-        })
-    }
-
-    const onUpdateUser = (e) => {
+    const onCreateUser = async (e) => {
         if (user.password !== user.confirmPassword) {
             props.returnErrors('Passwords do not match.', null, null)
         } else {
@@ -52,15 +48,13 @@ const Settings = (props) => {
         }
     }
 
-    const onDeleteUser = (e) => {}
-
     return (
         <Container fluid>
             <Row>
                 <Col xs={{ size: 12 }} md={{ size: 6, offset: 3 }}>
                     <Card>
                         <CardHeader>
-                            <h3 style={{ textAlign: 'center' }}>Settings</h3>
+                            <h3 style={{ textAlign: 'center' }}>Create User</h3>
                         </CardHeader>
                         <CardBody>
                             <Form>
@@ -153,38 +147,19 @@ const Settings = (props) => {
                                         </FormGroup>
                                     </Col>
                                 </Row>
-                                <Row>
-                                    <Col xs={12}>
-                                        <FormGroup check>
-                                            <Label check>
-                                                <Input
-                                                    type='checkbox'
-                                                    checked={user.admin}
-                                                    onChange={onChangeCheckbox}
-                                                />{' '}
-                                                Administrator
-                                            </Label>
-                                        </FormGroup>
-                                    </Col>
-                                </Row>
                             </Form>
+                            <FormText color='muted'>
+                                Have an account? <Link to='/'>Login here!</Link>
+                            </FormText>
                         </CardBody>
                         <CardFooter>
                             <Row>
                                 <Col xs={12}>
                                     <Button
                                         className='col-12 m-2'
-                                        onClick={onUpdateUser}
+                                        onClick={onCreateUser}
                                     >
-                                        Update
-                                    </Button>
-                                </Col>
-                                <Col xs={12}>
-                                    <Button
-                                        className='col-12 m-2'
-                                        onClick={onDeleteUser}
-                                    >
-                                        Delete
+                                        Create User
                                     </Button>
                                 </Col>
                             </Row>
@@ -196,16 +171,25 @@ const Settings = (props) => {
     )
 }
 
-Settings.propTypes = {
-    user: PropTypes.object,
-    error: PropTypes.object.isRequired,
+CreateUser.propTypes = {
+    getUser: PropTypes.func.isRequired,
+    updateUser: PropTypes.func.isRequired,
+    user: PropTypes.object.isRequired,
     isAuthenticated: PropTypes.bool.isRequired,
+    error: PropTypes.object.isRequired,
+    register: PropTypes.func.isRequired,
+    returnErrors: PropTypes.func.isRequired,
+    clearErrors: PropTypes.func.isRequired,
 }
 
 const mapStateToProps = (state) => ({
-    user: state.auth.user,
-    error: state.error,
+    user: state.user,
     isAuthenticated: state.auth.isAuthenticated,
+    error: state.error,
 })
 
-export default connect(mapStateToProps)(Settings)
+export default connect(mapStateToProps, {
+    register,
+    returnErrors,
+    clearErrors,
+})(CreateUser)

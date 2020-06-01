@@ -1,48 +1,45 @@
 import React from 'react'
-import {
-	BrowserRouter as Router,
-	Route,
-	Switch
-} from 'react-router-dom'
-import { Provider } from 'react-redux'
-import store from './store'
+import { BrowserRouter as Router, Switch } from 'react-router-dom'
 
+import AuthRoute from './components/AuthRoute'
 import NavigationBar from './components/NavigationBar'
 import Login from './components/Login'
-import Create from './components/Create'
+import CreateUser from './components/CreateUser'
+import CreateTask from './components/CreateTask'
 import TaskList from './components/TaskList'
 import Settings from './components/Settings'
+import NotFound from './components/NotFound'
 
-const App = () => {
-  	return (
-		<Provider store={store}>
-			<Router>
-				<Switch>
-					<Route exact path="/" render={ props => (
-						<Login />
-					)}/>
-					<Route exact path="/create" render={ props => (
-						<React.Fragment>
-							<NavigationBar />
-							<Create />
-						</React.Fragment>
-					)}/>
-					<Route exact path="/list" render={ props => (
-						<React.Fragment>
-							<NavigationBar />
-							<TaskList />
-						</React.Fragment>
-					)}/>
-					<Route exact path="/settings" render={ props => (
-						<React.Fragment>
-							<NavigationBar />
-							<Settings />
-						</React.Fragment>
-					)}/>
-				</Switch>
-			</Router>
-		</Provider>
-  	)
+const App = (props) => {
+    return (
+        <Router>
+            <NavigationBar />
+            <Switch>
+                <AuthRoute exact path='/' render={(props) => <Login />} />
+                <AuthRoute
+                    exact
+                    path='/createUser'
+                    render={(props) => <CreateUser />}
+                />
+                <AuthRoute
+                    exact
+                    path='/createTask'
+                    render={(props) => <CreateTask />}
+                />
+                <AuthRoute
+                    exact
+                    path='/list'
+                    render={(props) => <TaskList />}
+                />
+                <AuthRoute
+                    exact
+                    path='/settings'
+                    render={(props) => <Settings />}
+                />
+                <AuthRoute render={(props) => <NotFound />} />
+            </Switch>
+        </Router>
+    )
 }
 
 export default App

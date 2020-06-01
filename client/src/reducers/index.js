@@ -1,8 +1,10 @@
 import { combineReducers } from 'redux'
-import userReducer from './userReducer'
 import taskReducer from './taskReducer'
+import errorReducer from './errorReducer'
+import authReducer from './authReducer'
 
 export default combineReducers({
-    user: userReducer,
-    tasks: taskReducer
+    tasks: taskReducer,
+    error: errorReducer,
+    auth: authReducer,
 })

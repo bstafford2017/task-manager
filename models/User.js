@@ -1,4 +1,4 @@
-const mongoose = require('mongoose')
+import mongoose from 'mongoose'
 const Schema = mongoose.Schema
 
 // Create Schema
@@ -20,11 +20,19 @@ const userSchema = new Schema({
         type: String,
         required: true
     },
+    email: {
+        type: String,
+        required: true
+    },
     admin: {
         type: Boolean,
         required: true,
         default: false
+    },
+    createdOn: {
+        type: Date,
+        default: Date.now()
     }
 })
 
-module.exports = User = mongoose.model('user', userSchema)
+export default mongoose.model('user', userSchema)

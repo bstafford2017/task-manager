@@ -1,41 +1,43 @@
 import {
-    GET_TASKS,
+    TASKS_LOADED,
     ADD_TASK,
     DELETE_TASK,
-    TASKS_LOADING
+    TASKS_LOADING,
 } from '../actions/types'
 
 const initialState = {
     tasks: [],
-    loading: false
+    loading: false,
 }
 
-export default function(state = initialState, action) {
-    switch(action.type) {
-        case GET_TASKS:
+export default function (state = initialState, action) {
+    switch (action.type) {
+        case TASKS_LOADED:
             return {
                 ...state,
                 tasks: action.payload,
-                loading: false
+                loading: false,
             }
         case ADD_TASK:
             return {
                 ...state,
-                tasks: [...state.tasks, action.payload]
+                tasks: [...state.tasks, action.payload],
             }
         case DELETE_TASK:
             return {
                 ...state,
-                tasks: state.tasks.filter(task => task._id !== action.payload)
+                tasks: state.tasks.filter(
+                    (task) => task._id !== action.payload
+                ),
             }
         case TASKS_LOADING:
             return {
                 ...state,
-                loading: true
+                loading: true,
             }
         default:
             return {
-                ...state
+                ...state,
             }
     }
 }

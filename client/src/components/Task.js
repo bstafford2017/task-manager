@@ -5,8 +5,7 @@ import { Button } from 'reactstrap'
 import { deleteTask } from '../actions/taskActions'
 
 const Task = (props) => {
-
-    const onDelete = e => {
+    const onDelete = (e) => {
         props.deleteTask(props.task._id)
     }
 
@@ -18,17 +17,25 @@ const Task = (props) => {
             <td>{props.task.important ? 'Yes' : 'No'}</td>
             <td>{new Date(props.task.date).toLocaleDateString()}</td>
             <td>{new Date(props.task.date).toLocaleTimeString()}</td>
-            <td><Button
-                    color="danger"
-                    size="sm"
-                    onClick={onDelete}>&times;</Button></td>
+            {props.isAdmin ? (
+                <td>
+                    <Button color='danger' size='sm' onClick={onDelete}>
+                        &times;
+                    </Button>
+                </td>
+            ) : null}
         </tr>
     )
 }
 
 Task.propTypes = {
     task: PropTypes.object.isRequired,
-    deleteTask: PropTypes.func.isRequired
+    deleteTask: PropTypes.func.isRequired,
+    isAdmin: PropTypes.bool.isRequired,
 }
 
-export default connect(null, { deleteTask })(Task)
+const mapStateToProps = (state) => ({
+    isAdmin: state.auth.user.admin,
+})
+
+export default connect(mapStateToProps, { deleteTask })(Task)
