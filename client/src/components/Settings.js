@@ -16,6 +16,8 @@ import {
     CardFooter,
 } from 'reactstrap'
 import { connect } from 'react-redux'
+import { register } from '../actions/authActions'
+import { clearErrors } from '../actions/errorActions'
 
 const Settings = (props) => {
     const loadedUser = props.user
@@ -208,4 +210,4 @@ const mapStateToProps = (state) => ({
     isAuthenticated: state.auth.isAuthenticated,
 })
 
-export default connect(mapStateToProps)(Settings)
+export default connect(mapStateToProps, { register, clearErrors })(Settings)

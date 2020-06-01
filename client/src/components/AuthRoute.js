@@ -3,7 +3,9 @@ import { connect } from 'react-redux'
 import { Route, Redirect } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { loadUser } from '../actions/authActions'
+
 import Login from '../components/Login'
+import CreateUser from '../components/CreateUser'
 
 const AuthRoute = (props) => {
     const { loadUser } = props
@@ -20,7 +22,13 @@ const AuthRoute = (props) => {
             <Route {...props} />
         )
     } else {
-        return <Login />
+        if (props.path === '/') {
+            return <Login />
+        } else if (props.path === '/createUser') {
+            return <CreateUser />
+        } else {
+            return <Login />
+        }
     }
 }
 

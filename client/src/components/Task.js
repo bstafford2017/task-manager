@@ -1,10 +1,12 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Button } from 'reactstrap'
 import { deleteTask } from '../actions/taskActions'
 
 const Task = (props) => {
+    const [toggleEdit, setToggleEdit] = useState(false)
+
     const onDelete = (e) => {
         props.deleteTask(props.task._id)
     }
