@@ -17,13 +17,17 @@ app.use(express.json())
 const db = config.mongoURI
 
 // Make Mongoose use `findOneAndUpdate()`
-mongoose.set('useFindAndModify', false);
+mongoose.set('useFindAndModify', false)
 
 // Connect to Mongo
 mongoose
-    .connect(db, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true })
+    .connect(db, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+        useCreateIndex: true,
+    })
     .then(() => console.log('MongoDB connected...'))
-    .catch(err => console.error(err))
+    .catch((err) => console.error(err))
 
 // Routes for API
 app.use('/api/auth', authRoutes)
@@ -31,11 +35,11 @@ app.use('/api/users', usersRoutes)
 app.use('/api/tasks', tasksRoutes)
 
 // Server static asset if in production
-if(process.env.NODE_ENV === 'production') {
+if (process.env.NODE_ENV === 'production') {
     app.use(express.static('client/build'))
 
     app.get('*', (req, res) => {
-        res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
+        res.sendFile(path.resolve('client', 'build', 'index.html'))
     })
 }
 
