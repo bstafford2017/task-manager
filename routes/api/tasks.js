@@ -16,7 +16,7 @@ Router.get('/', auth, async (req, res) => {
             return a.date - b.date
         })
         res.json(tasks)
-    } catch(err) {
+    } catch (err) {
         res.status(400).json({ msg: err.message })
     }
 })
@@ -25,15 +25,14 @@ Router.get('/', auth, async (req, res) => {
 // @desc    Create a task
 // @access  Private
 Router.post('/', auth, async (req, res) => {
-    const {
-        title,
-        category,
-        description,
-        important
-    } = req.body
+    const { title, category, description, important } = req.body
 
-    if(!title || !category || !description ||
-        typeof important === 'undefined') {
+    if (
+        !title ||
+        !category ||
+        !description ||
+        typeof important === 'undefined'
+    ) {
         return res.status(400).json({ msg: 'Please enter all fields.' })
     }
 
@@ -42,10 +41,10 @@ Router.post('/', auth, async (req, res) => {
             title,
             category,
             description,
-            important
+            important,
         })
         res.json(await newTask.save())
-    } catch(err) {
+    } catch (err) {
         res.status(400).json({ msg: err.message })
     }
 })
@@ -54,15 +53,14 @@ Router.post('/', auth, async (req, res) => {
 // @desc    Update a task
 // @access  Private
 Router.post('/:id', auth, async (req, res) => {
-    const {
-        title,
-        category,
-        description,
-        important
-    } = req.body
+    const { title, category, description, important } = req.body
 
-    if(!title || !category || !description ||
-        typeof important === 'undefined') {
+    if (
+        !title ||
+        !category ||
+        !description ||
+        typeof important === 'undefined'
+    ) {
         return res.status(400).json({ msg: 'Please enter all fields.' })
     }
 
@@ -71,14 +69,14 @@ Router.post('/:id', auth, async (req, res) => {
             title,
             category,
             description,
-            important
+            important,
         }
-        res.json(await Task.findOneAndUpdate(
-            { _id: req.params.id },
-            updateTask,
-            { new: true }
-        ))
-    } catch(err) {
+        res.json(
+            await Task.findOneAndUpdate({ _id: req.params.id }, updateTask, {
+                new: true,
+            })
+        )
+    } catch (err) {
         res.status(400).json({ msg: err.message })
     }
 })
@@ -87,15 +85,15 @@ Router.post('/:id', auth, async (req, res) => {
 // @desc    Delete a task
 // @access  Private
 Router.delete('/:id', auth, async (req, res) => {
-    const { id } = req.body
+    const { id } = req.params
 
-    if(!id) {
+    if (!id) {
         return res.status(400).json({ msg: 'Please enter all fields.' })
     }
 
     try {
         res.json(await Task.findOneAndDelete({ _id: req.params.id }))
-    } catch(err) {
+    } catch (err) {
         res.status(400).json({ msg: err.message })
     }
 })
