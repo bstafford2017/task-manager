@@ -28,11 +28,19 @@ const CreateTask = (props) => {
         important: false,
     })
 
+    const onCheck = (e) => {
+        setTask({
+            ...task,
+            [e.target.id]: e.target.checked,
+        })
+    }
+
     const onChange = (e) => {
         setTask({
             ...task,
-            [e.target.id]: e.target.checked || e.target.value,
+            [e.target.id]: e.target.value,
         })
+        console.log(task)
     }
 
     const onSubmit = async (e) => {
@@ -108,7 +116,7 @@ const CreateTask = (props) => {
                                             type='checkbox'
                                             id='important'
                                             checked={task.important}
-                                            onChange={onChange}
+                                            onChange={onCheck}
                                         />{' '}
                                         Important
                                     </Label>
