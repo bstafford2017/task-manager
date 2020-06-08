@@ -16,12 +16,14 @@ import {
     CardFooter,
 } from 'reactstrap'
 import { connect } from 'react-redux'
-import { register } from '../actions/authActions'
+import { updateUser, deleteUser } from '../actions/authActions'
 import { clearErrors } from '../actions/errorActions'
 
 const Settings = (props) => {
     const loadedUser = props.user
+    console.log(loadedUser)
     const [user, setUser] = useState({
+        id: loadedUser?.id || '',
         username: loadedUser?.username || '',
         password: 'password',
         confirmPassword: 'password',
@@ -49,12 +51,14 @@ const Settings = (props) => {
         if (user.password !== user.confirmPassword) {
             props.returnErrors('Passwords do not match.', null, null)
         } else {
-            props.register(user)
+            props.updateUser(user)
             props.clearErrors()
         }
     }
 
-    const onDeleteUser = (e) => {}
+    const onDeleteUser = (e) => {
+        props.deleteUser(user.id)
+    }
 
     return (
         <Container fluid>
@@ -210,4 +214,8 @@ const mapStateToProps = (state) => ({
     isAuthenticated: state.auth.isAuthenticated,
 })
 
-export default connect(mapStateToProps, { register, clearErrors })(Settings)
+export default connect(mapStateToProps, {
+    updateUser,
+    deleteUser,
+    clearErrors,
+})(Settings)

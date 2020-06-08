@@ -7,6 +7,7 @@ import {
     LOGIN_SUCCESS,
     LOGOUT_SUCCESS,
     AUTH_ERROR,
+    DELETE_USER,
 } from '../actions/types'
 import { returnErrors } from './errorActions'
 import axios from 'axios'
@@ -73,10 +74,18 @@ export const register = (user) => async (dispatch) => {
     }
 }
 
-export const updateUser = (updateUser) => {
+export const updateUser = (updatedUser) => {
+    const response = await axious.update(`/api/auth/${updatedUser.id}`, updatedUser)
     return {
         type: UPDATE_USER,
-        payload: updateUser,
+        payload: updatedUser,
+    }
+}
+
+export const deleteUser = (id) => {
+    return {
+        type: DELETE_USER,
+        payload: id,
     }
 }
 
