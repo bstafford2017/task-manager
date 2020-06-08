@@ -15,7 +15,7 @@ import {
     Button,
     CardFooter,
 } from 'reactstrap'
-import { Link } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { login } from '../actions/authActions'
@@ -35,6 +35,7 @@ const Login = (props) => {
 
     const onSubmit = async () => {
         props.login(user)
+        return <Redirect to='/createTask' />
     }
 
     return (
@@ -73,7 +74,7 @@ const Login = (props) => {
                             </Form>
                             <FormText color='muted'>
                                 Do not have an account?{' '}
-                                <Link to='/createUser'>Register today!</Link>
+                                <Link to='/register'>Register today!</Link>
                             </FormText>
                         </CardBody>
                         <CardFooter>

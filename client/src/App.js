@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Switch } from 'react-router-dom'
 import AuthRoute from './components/AuthRoute'
 import NavigationBar from './components/NavigationBar'
 import Login from './components/Login'
-import CreateUser from './components/CreateUser'
+import Register from './components/Register'
 import CreateTask from './components/CreateTask'
 import TaskList from './components/TaskList'
 import Settings from './components/Settings'
@@ -18,8 +18,8 @@ const App = (props) => {
                 <AuthRoute exact path='/' render={(props) => <Login />} />
                 <AuthRoute
                     exact
-                    path='/createUser'
-                    render={(props) => <CreateUser />}
+                    path='/register'
+                    render={(props) => <Register />}
                 />
                 <AuthRoute
                     exact

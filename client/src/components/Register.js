@@ -22,7 +22,7 @@ import { Link } from 'react-router-dom'
 import { register } from '../actions/authActions'
 import { returnErrors, clearErrors } from '../actions/errorActions'
 
-const CreateUser = (props) => {
+const Register = (props) => {
     const [user, setUser] = useState({
         username: '',
         password: '',
@@ -39,7 +39,7 @@ const CreateUser = (props) => {
         })
     }
 
-    const onCreateUser = async (e) => {
+    const onRegister = async (e) => {
         if (user.password !== user.confirmPassword) {
             props.returnErrors('Passwords do not match.', null, null)
         } else {
@@ -54,7 +54,7 @@ const CreateUser = (props) => {
                 <Col xs={{ size: 12 }} md={{ size: 6, offset: 3 }}>
                     <Card>
                         <CardHeader>
-                            <h3 style={{ textAlign: 'center' }}>Create User</h3>
+                            <h3 style={{ textAlign: 'center' }}>Register</h3>
                         </CardHeader>
                         <CardBody>
                             <Form>
@@ -157,9 +157,9 @@ const CreateUser = (props) => {
                                 <Col xs={12}>
                                     <Button
                                         className='col-12 m-2'
-                                        onClick={onCreateUser}
+                                        onClick={onRegister}
                                     >
-                                        Create User
+                                        Register
                                     </Button>
                                 </Col>
                             </Row>
@@ -171,7 +171,7 @@ const CreateUser = (props) => {
     )
 }
 
-CreateUser.propTypes = {
+Register.propTypes = {
     getUser: PropTypes.func.isRequired,
     updateUser: PropTypes.func.isRequired,
     user: PropTypes.object.isRequired,
@@ -192,4 +192,4 @@ export default connect(mapStateToProps, {
     register,
     returnErrors,
     clearErrors,
-})(CreateUser)
+})(Register)

@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import { loadUser } from '../actions/authActions'
 
 import Login from '../components/Login'
-import CreateUser from '../components/CreateUser'
+import Register from '../components/Register'
 
 const AuthRoute = (props) => {
     const { loadUser } = props
@@ -24,8 +24,8 @@ const AuthRoute = (props) => {
     } else {
         if (props.path === '/') {
             return <Login />
-        } else if (props.path === '/createUser') {
-            return <CreateUser />
+        } else if (props.path === '/register') {
+            return <Register />
         } else {
             return <Login />
         }
