@@ -23,7 +23,12 @@ const TaskList = (props) => {
                         <th>Important</th>
                         <th>Date</th>
                         <th>Time</th>
-                        {props.isAdmin ? <th>Delete</th> : null}
+                        {props.isAdmin ? (
+                            <>
+                                <th>Edit</th>
+                                <th>Delete</th>
+                            </>
+                        ) : null}
                     </tr>
                 </thead>
                 <tbody style={{ textAlign: 'center' }}>

@@ -4,6 +4,7 @@ import {
     DELETE_TASK,
     TASKS_LOADING,
     AUTH_ERROR,
+    UPDATE_TASK
 } from './types'
 import axios from 'axios'
 import { tokenConfig } from './authActions'
@@ -49,6 +50,27 @@ export const addTask = (addTask) => async (dispatch, getState) => {
                 err.response.data,
                 err.response.status,
                 'System Error: Failed to add task.'
+            )
+        )
+        dispatch({
+            type: AUTH_ERROR,
+        })
+    }
+}
+
+export const updateTask = (task) => async (dispatch) => {
+    try {
+        await axios.post(`/api/tasks/${task.id}`, task)
+        dispatch({
+            type: UPDATE_TASK,
+            payload: task,
+        })
+    } catch (err) {
+        dispatch(
+            returnErrors(
+                err.response.data,
+                err.response.status,
+                'System Error: Failed to delete task.'
             )
         )
         dispatch({

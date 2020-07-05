@@ -18,6 +18,7 @@ import {
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { addTask } from '../actions/taskActions'
+import categories from '../categories'
 
 const CreateTask = (props) => {
     // Array destructuring
@@ -40,7 +41,6 @@ const CreateTask = (props) => {
             ...task,
             [e.target.id]: e.target.value,
         })
-        console.log(task)
     }
 
     const onSubmit = async (e) => {
@@ -91,10 +91,9 @@ const CreateTask = (props) => {
                                         <option hidden defaultValue>
                                             Select
                                         </option>
-                                        <option>Printing</option>
-                                        <option>Updating</option>
-                                        <option>Networking/Internet</option>
-                                        <option>Other</option>
+                                        {categories.map(e => {
+                                            return <option value={e}>{e}</option>
+                                        })}
                                     </Input>
                                 </FormGroup>
                                 <FormGroup>
