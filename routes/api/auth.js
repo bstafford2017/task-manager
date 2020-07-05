@@ -110,10 +110,10 @@ Router.post('/register', async (req, res) => {
     }
 })
 
-// @route   UPDATE api/auth/:id
+// @route   POST api/auth/:id
 // @desc    Update user
 // @acc     Private
-Router.update('/:id', auth, async (req, res) => {
+Router.post('/:id', auth, async (req, res) => {
     res.json(
         await User.findOneAndUpdate({ id: res }, req.body.user, {
             upsert: false,

@@ -74,8 +74,8 @@ export const register = (user) => async (dispatch) => {
     }
 }
 
-export const updateUser = (updatedUser) => {
-    const response = await axious.update(`/api/auth/${updatedUser.id}`, updatedUser)
+export const updateUser = async (updatedUser) => {
+    await axios.update(`/api/auth/${updatedUser.id}`, updatedUser)
     return {
         type: UPDATE_USER,
         payload: updatedUser,
