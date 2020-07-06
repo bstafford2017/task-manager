@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import { loadUser } from '../actions/authActions'
 
 import Login from '../components/Login'
-import Register from '../components/Register'
+import Register from './Register'
 
 const AuthRoute = (props) => {
     const { loadUser } = props

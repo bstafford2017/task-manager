@@ -1,5 +1,5 @@
-import React from 'react'
-import { Container, Row, Col } from 'reactstrap'
+import React from './node_modules/react'
+import { Container, Row, Col } from './node_modules/reactstrap'
 
 const NotFound = () => {
     return (
