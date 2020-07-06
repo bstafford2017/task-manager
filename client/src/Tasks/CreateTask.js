@@ -17,7 +17,7 @@ import {
 } from 'reactstrap'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { addTask } from '../actions/taskActions'
+import { addTask } from './taskActions'
 
 const CreateTask = (props) => {
     // Array destructuring

@@ -10,7 +10,7 @@ import {
 } from 'reactstrap'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { logout } from '../actions/authActions'
+import { logout } from '../Auth/authActions'
 
 const NavigationBar = (props) => {
     const [isOpen, setIsOpen] = useState(false)

@@ -9,7 +9,7 @@ import {
     AUTH_ERROR,
     DELETE_USER,
 } from '../types'
-import { returnErrors } from '../actions/errorActions'
+import { returnErrors } from '../Error/errorActions'
 import axios from 'axios'
 
 // Setup config/headers and token

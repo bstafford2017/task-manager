@@ -2,9 +2,9 @@ import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { Route, Redirect } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import { loadUser } from '../actions/authActions'
+import { loadUser } from './authActions'
 
-import Login from '../components/Login'
+import Login from './Login'
 import Register from './Register'
 
 const AuthRoute = (props) => {

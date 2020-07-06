@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Button } from 'reactstrap'
-import { deleteTask } from '../actions/taskActions'
+import { deleteTask } from './taskActions'
 
 const Task = (props) => {
     const [toggleEdit, setToggleEdit] = useState(false)

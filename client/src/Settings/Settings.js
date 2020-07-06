@@ -16,8 +16,8 @@ import {
     CardFooter,
 } from 'reactstrap'
 import { connect } from 'react-redux'
-import { updateUser, deleteUser } from '../actions/authActions'
-import { clearErrors } from '../actions/errorActions'
+import { updateUser, deleteUser } from '../Auth/authActions'
+import { clearErrors } from '../Error/errorActions'
 
 const Settings = (props) => {
     const loadedUser = props.user

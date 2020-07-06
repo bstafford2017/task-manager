@@ -9,7 +9,7 @@ import {
     REGISTER_ERROR,
     UPDATE_USER,
     DELETE_USER,
-} from '../actions/types'
+} from '../types'
 
 const initialState = {
     token: localStorage.getItem('token'),

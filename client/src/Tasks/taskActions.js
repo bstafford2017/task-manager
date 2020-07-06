@@ -4,10 +4,10 @@ import {
     DELETE_TASK,
     TASKS_LOADING,
     AUTH_ERROR,
-} from './types'
+} from '../types'
 import axios from 'axios'
-import { tokenConfig } from './authActions'
-import { returnErrors } from './errorActions'
+import { tokenConfig } from '../Auth/authActions'
+import { returnErrors } from '../Error/errorActions'
 
 export const getTasks = () => async (dispatch, getState) => {
     try {

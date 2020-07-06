@@ -18,7 +18,7 @@ import {
 import { Link, Redirect } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { login } from '../actions/authActions'
+import { login } from './authActions'
 
 const Login = (props) => {
     const [user, setUser] = useState({
