@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux'
-import taskReducer from './taskReducer'
-import errorReducer from './errorReducer'
-import authReducer from './authReducer'
+import taskReducer from './Tasks/taskReducer'
+import errorReducer from './Error/errorReducer'
+import authReducer from './Auth/authReducer'
 
 export default combineReducers({
     tasks: taskReducer,

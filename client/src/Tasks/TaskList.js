@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { Table, Container } from 'reactstrap'
 import { connect } from 'react-redux'
 import Task from './Task'
-import { getTasks } from '../actions/taskActions'
+import { getTasks } from '../Tasks/taskActions'
 
 const TaskList = (props) => {
     const { getTasks } = props

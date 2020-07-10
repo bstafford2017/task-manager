@@ -19,8 +19,8 @@ import {
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 
-import { register } from '../actions/authActions'
-import { returnErrors, clearErrors } from '../actions/errorActions'
+import { register } from './authActions'
+import { returnErrors, clearErrors } from '../Error/errorActions'
 
 const Register = (props) => {
     const [user, setUser] = useState({

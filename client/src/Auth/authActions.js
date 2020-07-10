@@ -8,8 +8,8 @@ import {
     LOGOUT_SUCCESS,
     AUTH_ERROR,
     DELETE_USER,
-} from '../actions/types'
-import { returnErrors } from './errorActions'
+} from '../types'
+import { returnErrors } from '../Error/errorActions'
 import axios from 'axios'
 
 // Setup config/headers and token

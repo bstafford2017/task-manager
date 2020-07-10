@@ -1,19 +1,41 @@
 import React from 'react'
 import { BrowserRouter as Router, Switch } from 'react-router-dom'
-
-import AuthRoute from './components/AuthRoute'
-import NavigationBar from './components/NavigationBar'
-import Login from './components/Login'
-import Register from './components/Register'
-import CreateTask from './components/CreateTask'
-import TaskList from './components/TaskList'
-import Settings from './components/Settings'
-import NotFound from './components/NotFound'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import { Spinner } from 'reactstrap'
+import AuthRoute from './Auth/AuthRoute'
+import NavigationBar from './Navigation/NavigationBar'
+import Login from './Auth/Login'
+import Register from './Auth/Register'
+import CreateTask from './Tasks/CreateTask'
+import TaskList from './Tasks/TaskList'
+import Settings from './Settings/Settings'
+import NotFound from './Error/NotFound'
 
 const App = (props) => {
+    const spinnerStyle = {
+        display: 'block',
+        position: 'fixed',
+        zIndex: 1031,
+        top: '45%',
+        right: '50%',
+        marginTop: '-..px',
+        marginRight: '-..px',
+        width: '5rem',
+        height: '5rem',
+    }
+
     return (
         <Router>
             <NavigationBar />
+            {props.isLoading ? (
+                <Spinner
+                    color='dark'
+                    size='lg'
+                    type='grow'
+                    style={spinnerStyle}
+                />
+            ) : null}
             <Switch>
                 <AuthRoute exact path='/' render={(props) => <Login />} />
                 <AuthRoute
@@ -42,4 +64,12 @@ const App = (props) => {
     )
 }
 
-export default App
+App.propTypes = {
+    isLoading: PropTypes.bool.isRequired,
+}
+
+const mapStateToProps = (state) => ({
+    isLoading: state.auth.isLoading,
+})
+
+export default connect(mapStateToProps)(App)

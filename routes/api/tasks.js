@@ -13,7 +13,7 @@ Router.get('/', auth, async (req, res) => {
     try {
         const tasks = await Task.find()
         tasks.sort((a, b) => {
-            return a.date - b.date
+            return b.date - a.date
         })
         res.json(tasks)
     } catch (err) {

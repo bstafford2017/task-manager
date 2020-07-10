@@ -1,9 +1,4 @@
-import {
-    TASKS_LOADED,
-    ADD_TASK,
-    DELETE_TASK,
-    TASKS_LOADING,
-} from '../actions/types'
+import { TASKS_LOADED, ADD_TASK, DELETE_TASK, TASKS_LOADING } from '../types'
 
 const initialState = {
     tasks: [],

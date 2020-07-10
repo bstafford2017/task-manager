@@ -17,8 +17,8 @@ import {
 } from 'reactstrap'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { addTask } from '../actions/taskActions'
 import categories from '../categories'
+import { addTask } from './taskActions'
 
 const CreateTask = (props) => {
     // Array destructuring
@@ -91,8 +91,10 @@ const CreateTask = (props) => {
                                         <option hidden defaultValue>
                                             Select
                                         </option>
-                                        {categories.map(e => {
-                                            return <option value={e}>{e}</option>
+                                        {categories.map((e) => {
+                                            return (
+                                                <option value={e}>{e}</option>
+                                            )
                                         })}
                                     </Input>
                                 </FormGroup>
