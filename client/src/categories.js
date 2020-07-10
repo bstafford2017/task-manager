@@ -1,7 +1,1 @@
-export default
-    [
-        "Printing",
-        "Updating",
-        "Networking/Internet",
-        "Other"
-    ]
+export default ["Printing", "Updating", "Networking/Internet", "Other"];
