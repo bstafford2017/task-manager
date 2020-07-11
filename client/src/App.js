@@ -11,6 +11,8 @@ import CreateTask from './Tasks/CreateTask'
 import TaskList from './Tasks/TaskList'
 import Settings from './Settings/Settings'
 import NotFound from './Error/NotFound'
+import 'react-toastify/dist/ReactToastify.css'
+import { ToastContainer } from 'react-toastify'
 
 const App = (props) => {
   const spinnerStyle = {
@@ -27,6 +29,7 @@ const App = (props) => {
 
   return (
     <Router>
+      <ToastContainer />
       {props.isLoading ? (
         <Spinner color='dark' size='lg' type='grow' style={spinnerStyle} />
       ) : (

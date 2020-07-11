@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import { Button } from 'reactstrap'
 import categories from '../categories'
 import { deleteTask, updateTask } from './taskActions'
+import { toast } from 'react-toastify'
 
 const Task = (props) => {
   const [toggleEdit, setToggleEdit] = useState(false)
@@ -17,9 +18,18 @@ const Task = (props) => {
     setToggleEdit(!toggleEdit)
   }
 
-  const onDelete = (e) => props.deleteTask(task._id)
+  const onDelete = (e) => {
+    toast.success(`Deleted task ${task._id}`)
+    props.deleteTask(task._id)
+  }
 
-  const onUpdate = (e) => props.updateTask(task)
+  const onUpdate = (e) => {
+    toast.success(`Updated task ${task._id}`)
+    props.updateTask(task)
+  }
+
+  const onChangeImportant = (e) =>
+    setTask({ ...task, [e.target.id]: e.target.value === 'Yes' ? true : false })
 
   const onChange = (e) => setTask({ ...task, [e.target.id]: e.target.value })
 
@@ -38,7 +48,7 @@ const Task = (props) => {
         </Input>
       </td>
       <td>
-        <Input id='important' type='select' onChange={onChange}>
+        <Input id='important' type='select' onChange={onChangeImportant}>
           <option defaultValue>{task.important ? 'Yes' : 'No'}</option>
           <option>{task.important ? 'No' : 'Yes'}</option>
         </Input>

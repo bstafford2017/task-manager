@@ -59,7 +59,7 @@ Router.post('/:id', auth, async (req, res) => {
       title,
       category,
       description,
-      important
+      important: important === 'Yes' ? true : false
     }
     res.json(
       await Task.findOneAndUpdate({ _id: req.params.id }, updateTask, {

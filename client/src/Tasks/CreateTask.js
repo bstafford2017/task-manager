@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState } from 'react'
 import {
   Container,
   Row,
@@ -13,46 +13,47 @@ import {
   Input,
   Alert,
   Button,
-  CardFooter,
-} from "reactstrap";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
-import categories from "../categories";
-import { addTask } from "./taskActions";
+  CardFooter
+} from 'reactstrap'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import categories from '../categories'
+import { addTask } from './taskActions'
+import { toast } from 'react-toastify'
 
 const CreateTask = (props) => {
   // Array destructuring
   const [task, setTask] = useState({
-    title: "",
-    category: "",
-    description: "",
-    important: false,
-  });
+    title: '',
+    category: '',
+    description: '',
+    important: false
+  })
 
-  const onCheck = (e) => {
+  const onChangeImportant = (e) => {
     setTask({
       ...task,
-      [e.target.id]: e.target.checked,
-    });
-  };
+      [e.target.id]: e.target.checked
+    })
+  }
 
   const onChange = (e) => {
     setTask({
       ...task,
-      [e.target.id]: e.target.value,
-    });
-  };
+      [e.target.id]: e.target.value
+    })
+  }
 
   const onSubmit = async (e) => {
-    console.log(task);
-    props.addTask(task);
+    toast.success('Added new task')
+    props.addTask(task)
     setTask({
-      title: "",
-      category: "",
-      description: "",
-      important: false,
-    });
-  };
+      title: '',
+      category: '',
+      description: '',
+      important: false
+    })
+  }
 
   return (
     <Container fluid>
@@ -60,27 +61,27 @@ const CreateTask = (props) => {
         <Col xs={{ size: 12 }} md={{ size: 6, offset: 3 }}>
           <Card>
             <CardHeader>
-              <h3 style={{ textAlign: "center" }}>Create a Task</h3>
+              <h3 style={{ textAlign: 'center' }}>Create a Task</h3>
             </CardHeader>
             <CardBody>
               <Form>
                 {props.error.msg.msg ? (
-                  <Alert color="danger">{props.error.msg.msg}</Alert>
+                  <Alert color='danger'>{props.error.msg.msg}</Alert>
                 ) : null}
                 <FormGroup>
-                  <Label for="title">Title</Label>
+                  <Label for='title'>Title</Label>
                   <Input
-                    type="text"
-                    id="title"
+                    type='text'
+                    id='title'
                     value={task.title}
                     onChange={onChange}
                   />
                 </FormGroup>
                 <FormGroup>
-                  <Label for="category">Category</Label>
+                  <Label for='category'>Category</Label>
                   <Input
-                    type="select"
-                    id="category"
+                    type='select'
+                    id='category'
                     value={task.category}
                     onChange={onChange}
                   >
@@ -88,19 +89,19 @@ const CreateTask = (props) => {
                       Select
                     </option>
                     {categories.map((e) => {
-                      return <option value={e}>{e}</option>;
+                      return <option value={e}>{e}</option>
                     })}
                   </Input>
                 </FormGroup>
                 <FormGroup>
-                  <Label for="description">Description</Label>
+                  <Label for='description'>Description</Label>
                   <Input
-                    type="textarea"
-                    id="description"
+                    type='textarea'
+                    id='description'
                     value={task.description}
                     onChange={onChange}
                   />
-                  <FormText color="muted">
+                  <FormText color='muted'>
                     The more important provided, the better assistance I can
                     give.
                   </FormText>
@@ -108,11 +109,11 @@ const CreateTask = (props) => {
                 <FormGroup check>
                   <Label check>
                     <Input
-                      type="checkbox"
-                      id="important"
+                      type='checkbox'
+                      id='important'
                       checked={task.important}
-                      onChange={onCheck}
-                    />{" "}
+                      onChange={onChangeImportant}
+                    />{' '}
                     Important
                   </Label>
                 </FormGroup>
@@ -120,7 +121,7 @@ const CreateTask = (props) => {
             </CardBody>
             <CardFooter>
               <Button
-                className="col-12 col-sm-4 offset-sm-4"
+                className='col-12 col-sm-4 offset-sm-4'
                 onClick={onSubmit}
               >
                 Submit
@@ -130,18 +131,18 @@ const CreateTask = (props) => {
         </Col>
       </Row>
     </Container>
-  );
-};
+  )
+}
 
 CreateTask.propTypes = {
   addTask: PropTypes.func.isRequired,
   error: PropTypes.object.isRequired,
-  isAuthenticated: PropTypes.bool.isRequired,
-};
+  isAuthenticated: PropTypes.bool.isRequired
+}
 
 const mapStateToProps = (state) => ({
   error: state.error,
-  isAuthenticated: state.auth.isAuthenticated,
-});
+  isAuthenticated: state.auth.isAuthenticated
+})
 
-export default connect(mapStateToProps, { addTask })(CreateTask);
+export default connect(mapStateToProps, { addTask })(CreateTask)
