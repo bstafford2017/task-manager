@@ -1,9 +1,15 @@
-import { TASKS_LOADED, ADD_TASK, DELETE_TASK, TASKS_LOADING } from "../types";
+import {
+  TASKS_LOADED,
+  ADD_TASK,
+  DELETE_TASK,
+  TASKS_LOADING,
+  UPDATE_TASK
+} from '../types'
 
 const initialState = {
   tasks: [],
-  loading: false,
-};
+  loading: false
+}
 
 export default function (state = initialState, action) {
   switch (action.type) {
@@ -11,26 +17,34 @@ export default function (state = initialState, action) {
       return {
         ...state,
         tasks: action.payload,
-        loading: false,
-      };
+        loading: false
+      }
     case ADD_TASK:
       return {
         ...state,
-        tasks: [...state.tasks, action.payload],
-      };
+        tasks: [...state.tasks, action.payload]
+      }
+    case UPDATE_TASK:
+      return {
+        ...state,
+        tasks: [
+          ...state.tasks.filter((e) => e._id !== action.payload._id),
+          action.payload
+        ]
+      }
     case DELETE_TASK:
       return {
         ...state,
-        tasks: state.tasks.filter((task) => task._id !== action.payload),
-      };
+        tasks: state.tasks.filter((task) => task._id !== action.payload)
+      }
     case TASKS_LOADING:
       return {
         ...state,
-        loading: true,
-      };
+        loading: true
+      }
     default:
       return {
-        ...state,
-      };
+        ...state
+      }
   }
 }

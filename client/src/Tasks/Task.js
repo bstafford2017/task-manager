@@ -1,55 +1,64 @@
-import React, { useState } from "react";
-import { Input } from "reactstrap";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
-import { Button } from "reactstrap";
-import categories from "../categories";
-import { deleteTask } from "./taskActions";
+import React, { useState } from 'react'
+import { Input } from 'reactstrap'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import { Button } from 'reactstrap'
+import categories from '../categories'
+import { deleteTask, updateTask } from './taskActions'
 
 const Task = (props) => {
-  const [toggleEdit, setToggleEdit] = useState(false);
+  const [toggleEdit, setToggleEdit] = useState(false)
+  const [task, setTask] = useState(props.task)
 
-  const onToggle = (e) => setToggleEdit(!toggleEdit);
+  const onToggle = (e) => {
+    if (toggleEdit) {
+      onUpdate(e)
+    }
+    setToggleEdit(!toggleEdit)
+  }
 
-  const onDelete = (e) => props.deleteTask(props.task._id);
+  const onDelete = (e) => props.deleteTask(task._id)
 
-  const onSubmit = (e) => props.updateTask(props.task);
+  const onUpdate = (e) => props.updateTask(task)
+
+  const onChange = (e) => setTask({ ...task, [e.target.id]: e.target.value })
 
   return toggleEdit ? (
     <tr>
       <td>{props.task._id}</td>
       <td>
-        <Input type="text" value={props.task.title} onChange={onChange} />
+        <Input id='title' type='text' value={task.title} onChange={onChange} />
       </td>
       <td>
-        <Input type="select" onChange={onChange}>
-          <option defaultValue>{props.task.category}</option>
+        <Input id='category' type='select' onChange={onChange}>
+          <option defaultValue>{task.category}</option>
           {categories.map((e) => {
-            return <option value={e}>{e}</option>;
+            return <option value={e}>{e}</option>
           })}
         </Input>
       </td>
       <td>
-        <Input type="select" onChange={onChange}>
-          <option defaultValue>{props.task.important ? "Yes" : "No"}</option>
+        <Input id='important' type='select' onChange={onChange}>
+          <option defaultValue>{task.important ? 'Yes' : 'No'}</option>
+          <option>{task.important ? 'No' : 'Yes'}</option>
         </Input>
       </td>
-      <td>{new Date(props.task.date).toLocaleDateString()}</td>
-      <td>{new Date(props.task.date).toLocaleTimeString()}</td>
+      <td>{new Date(task.date).toLocaleDateString()}</td>
+      <td>{new Date(task.date).toLocaleTimeString()}</td>
       {props.isAdmin ? (
         <>
           <td>
             <Button
-              outline={toggleEdit ? true : null}
-              color="secondary"
-              size="sm"
+              outline={toggleEdit ? false : true}
+              color={toggleEdit ? 'success' : 'secondary'}
+              size='sm'
               onClick={onToggle}
             >
-              {toggleEdit ? "Done" : "Edit"}
+              {toggleEdit ? 'Done' : 'Edit'}
             </Button>
           </td>
           <td>
-            <Button color="danger" size="sm" onClick={onDelete}>
+            <Button color='danger' size='sm' onClick={onDelete}>
               &times;
             </Button>
           </td>
@@ -61,7 +70,7 @@ const Task = (props) => {
       <td>{props.task._id}</td>
       <td>{props.task.title}</td>
       <td>{props.task.category}</td>
-      <td>{props.task.important ? "Yes" : "No"}</td>
+      <td>{props.task.important ? 'Yes' : 'No'}</td>
       <td>{new Date(props.task.date).toLocaleDateString()}</td>
       <td>{new Date(props.task.date).toLocaleTimeString()}</td>
       {props.isAdmin ? (
@@ -69,38 +78,38 @@ const Task = (props) => {
           <td>
             <Button
               outline={toggleEdit ? true : null}
-              color="secondary"
-              size="sm"
+              color='secondary'
+              size='sm'
               onClick={onToggle}
             >
-              {toggleEdit ? "Done" : "Edit"}
+              {toggleEdit ? 'Done' : 'Edit'}
             </Button>
           </td>
           <td>
-            <Button color="danger" size="sm" onClick={onDelete}>
+            <Button color='danger' size='sm' onClick={onDelete}>
               &times;
             </Button>
           </td>
         </>
       ) : null}
     </tr>
-  );
-};
+  )
+}
 
 Task.propTypes = {
   task: PropTypes.object.isRequired,
   isAdmin: PropTypes.bool.isRequired,
   deleteTask: PropTypes.func.isRequired,
-  updateTask: PropTypes.func.isRequired,
-};
+  updateTask: PropTypes.func.isRequired
+}
 
 const mapStateToProps = (state) => ({
-  isAdmin: state.auth.user.admin,
-});
+  isAdmin: state.auth.user.admin
+})
 
 const mapDispatchToProps = {
   deleteTask,
-  updateTask,
-};
+  updateTask
+}
 
-export default connect(mapStateToProps, mapDispatchToProps)(Task);
+export default connect(mapStateToProps, mapDispatchToProps)(Task)
