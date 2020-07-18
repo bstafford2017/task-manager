@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import PropTypes from "prop-types";
+import React, { useEffect, useState } from 'react'
+import PropTypes from 'prop-types'
 import {
   Container,
   Row,
@@ -13,52 +13,90 @@ import {
   Input,
   Alert,
   Button,
-  CardFooter,
-} from "reactstrap";
-import { connect } from "react-redux";
-import { updateUser, deleteUser } from "../Auth/authActions";
-import { clearErrors } from "../Error/errorActions";
+  CardFooter
+} from 'reactstrap'
+import { connect } from 'react-redux'
+import { useHistory } from 'react-router-dom'
+import { updateUser, deleteUser } from '../Auth/authActions'
+import { clearErrors, returnErrors } from '../Error/errorActions'
+import { toast } from 'react-toastify'
+import { LOGIN_URL } from '../Routes'
 
-const Settings = (props) => {
-  const loadedUser = props.user;
-  console.log(loadedUser);
+const Settings = ({
+  user: loadedUser,
+  deleteUser,
+  updateUser,
+  clearErrors,
+  returnErrors,
+  ...props
+}) => {
+  const history = useHistory()
   const [user, setUser] = useState({
-    id: loadedUser?.id || "",
-    username: loadedUser?.username || "",
-    password: "password",
-    confirmPassword: "password",
-    firstName: loadedUser?.firstName || "",
-    lastName: loadedUser?.lastName || "",
-    email: loadedUser?.email || "",
-    admin: loadedUser?.admin || false,
-  });
+    _id: '',
+    username: '',
+    password: '',
+    confirmPassword: '',
+    firstName: '',
+    lastName: '',
+    email: '',
+    admin: false
+  })
+
+  useEffect(() => {
+    if (Object.keys(loadedUser).length !== 0) {
+      setUser({
+        _id: loadedUser._id,
+        username: loadedUser.username,
+        password: loadedUser.password,
+        confirmPassword: loadedUser.password,
+        firstName: loadedUser.firstName,
+        lastName: loadedUser.lastName,
+        email: loadedUser.email,
+        admin: loadedUser.admin
+      })
+    }
+  }, [loadedUser])
+
+  const {
+    _id,
+    username,
+    password,
+    confirmPassword,
+    firstName,
+    lastName,
+    email,
+    admin
+  } = user
 
   const onChange = (e) => {
     setUser({
       ...user,
-      [e.target.id]: e.target.value,
-    });
-  };
+      [e.target.id]: e.target.value
+    })
+  }
 
   const onChangeCheckbox = (e) => {
     setUser({
       ...user,
-      admin: !user.admin,
-    });
-  };
+      admin: !admin
+    })
+  }
 
   const onUpdateUser = (e) => {
-    if (user.password !== user.confirmPassword) {
-      props.returnErrors("Passwords do not match.", null, null);
+    if (password !== confirmPassword) {
+      returnErrors('Passwords do not match.', null, null)
     } else {
-      props.updateUser(user);
-      props.clearErrors();
+      toast.success('Updated user!')
+      updateUser(user)
+      clearErrors()
     }
-  };
+  }
 
   const onDeleteUser = (e) => {
-    props.deleteUser(user.id);
-  };
+    toast.success('Deleted user!')
+    deleteUser(_id)
+    history.push(LOGIN_URL)
+  }
 
   return (
     <Container fluid>
@@ -66,21 +104,21 @@ const Settings = (props) => {
         <Col xs={{ size: 12 }} md={{ size: 6, offset: 3 }}>
           <Card>
             <CardHeader>
-              <h3 style={{ textAlign: "center" }}>Settings</h3>
+              <h3 style={{ textAlign: 'center' }}>Settings</h3>
             </CardHeader>
             <CardBody>
               <Form>
                 <Row form>
                   <Col xs={12}>
                     {props.error.msg.msg ? (
-                      <Alert color="danger">{props.error.msg.msg}</Alert>
+                      <Alert color='danger'>{props.error.msg.msg}</Alert>
                     ) : null}
                     <FormGroup>
-                      <Label for="username">Username</Label>
+                      <Label for='username'>Username</Label>
                       <Input
-                        type="text"
-                        id="username"
-                        value={user.username}
+                        type='text'
+                        id='username'
+                        value={username}
                         onChange={onChange}
                       />
                     </FormGroup>
@@ -89,22 +127,22 @@ const Settings = (props) => {
                 <Row form>
                   <Col xs={12} md={6}>
                     <FormGroup>
-                      <Label for="password">Password</Label>
+                      <Label for='password'>Password</Label>
                       <Input
-                        type="password"
-                        id="password"
-                        value={user.password}
+                        type='password'
+                        id='password'
+                        value={password}
                         onChange={onChange}
                       />
                     </FormGroup>
                   </Col>
                   <Col xs={12} md={6}>
                     <FormGroup>
-                      <Label for="confirmPassword">Confirm Password</Label>
+                      <Label for='confirmPassword'>Confirm Password</Label>
                       <Input
-                        type="password"
-                        id="confirmPassword"
-                        value={user.confirmPassword}
+                        type='password'
+                        id='confirmPassword'
+                        value={confirmPassword}
                         onChange={onChange}
                       />
                     </FormGroup>
@@ -113,22 +151,22 @@ const Settings = (props) => {
                 <Row form>
                   <Col xs={12} md={6}>
                     <FormGroup>
-                      <Label for="firstName">First Name</Label>
+                      <Label for='firstName'>First Name</Label>
                       <Input
-                        type="text"
-                        id="firstName"
-                        value={user.firstName}
+                        type='text'
+                        id='firstName'
+                        value={firstName}
                         onChange={onChange}
                       />
                     </FormGroup>
                   </Col>
                   <Col xs={12} md={6}>
                     <FormGroup>
-                      <Label for="lastName">Last Name</Label>
+                      <Label for='lastName'>Last Name</Label>
                       <Input
-                        type="text"
-                        id="lastName"
-                        value={user.lastName}
+                        type='text'
+                        id='lastName'
+                        value={lastName}
                         onChange={onChange}
                       />
                     </FormGroup>
@@ -137,11 +175,11 @@ const Settings = (props) => {
                 <Row>
                   <Col xs={12}>
                     <FormGroup>
-                      <Label for="email">Email</Label>
+                      <Label for='email'>Email</Label>
                       <Input
-                        type="text"
-                        id="email"
-                        value={user.email}
+                        type='text'
+                        id='email'
+                        value={email}
                         onChange={onChange}
                       />
                     </FormGroup>
@@ -152,10 +190,10 @@ const Settings = (props) => {
                     <FormGroup check>
                       <Label check>
                         <Input
-                          type="checkbox"
-                          checked={user.admin}
+                          type='checkbox'
+                          checked={admin}
                           onChange={onChangeCheckbox}
-                        />{" "}
+                        />{' '}
                         Administrator
                       </Label>
                     </FormGroup>
@@ -166,12 +204,12 @@ const Settings = (props) => {
             <CardFooter>
               <Row>
                 <Col xs={12}>
-                  <Button className="col-12 m-2" onClick={onUpdateUser}>
+                  <Button className='col-12 m-2' onClick={onUpdateUser}>
                     Update
                   </Button>
                 </Col>
                 <Col xs={12}>
-                  <Button className="col-12 m-2" onClick={onDeleteUser}>
+                  <Button className='col-12 m-2' onClick={onDeleteUser}>
                     Delete
                   </Button>
                 </Col>
@@ -181,23 +219,30 @@ const Settings = (props) => {
         </Col>
       </Row>
     </Container>
-  );
-};
+  )
+}
 
 Settings.propTypes = {
-  user: PropTypes.object,
+  user: PropTypes.object.isRequired,
   error: PropTypes.object.isRequired,
   isAuthenticated: PropTypes.bool.isRequired,
-};
+  updateUser: PropTypes.func.isRequired,
+  deleteUser: PropTypes.func.isRequired,
+  clearErrors: PropTypes.func.isRequired,
+  returnErrors: PropTypes.func.isRequired
+}
 
 const mapStateToProps = (state) => ({
   user: state.auth.user,
   error: state.error,
-  isAuthenticated: state.auth.isAuthenticated,
-});
+  isAuthenticated: state.auth.isAuthenticated
+})
 
-export default connect(mapStateToProps, {
+const mapDispatchToProps = {
   updateUser,
   deleteUser,
   clearErrors,
-})(Settings);
+  returnErrors
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Settings)

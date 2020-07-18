@@ -1,9 +1,8 @@
 import React from 'react'
-import { BrowserRouter as Router, Switch } from 'react-router-dom'
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { Spinner } from 'reactstrap'
-import AuthRoute from './Auth/AuthRoute'
+import AuthRoute from './Routes/AuthRoute'
 import NavigationBar from './Navigation/NavigationBar'
 import Login from './Auth/Login'
 import Register from './Auth/Register'
@@ -11,10 +10,18 @@ import CreateTask from './Tasks/CreateTask'
 import TaskList from './Tasks/TaskList'
 import Settings from './Settings/Settings'
 import NotFound from './Error/NotFound'
+import {
+  LOGIN_URL,
+  REGISTER_URL,
+  HOME_URL,
+  TASKLIST_URL,
+  SETTINGS_URL
+} from './Routes'
 import 'react-toastify/dist/ReactToastify.css'
 import { ToastContainer } from 'react-toastify'
+import { Spinner } from 'reactstrap'
 
-const App = (props) => {
+const App = ({ isLoading, ...props }) => {
   const spinnerStyle = {
     display: 'block',
     position: 'fixed',
@@ -30,23 +37,20 @@ const App = (props) => {
   return (
     <Router>
       <ToastContainer />
-      {props.isLoading ? (
+      {isLoading ? (
         <Spinner color='dark' size='lg' type='grow' style={spinnerStyle} />
-      ) : (
+      ) : null}
+      <>
         <NavigationBar />
-      )}
-      <Switch>
-        <AuthRoute exact path='/' render={(props) => <Login />} />
-        <AuthRoute exact path='/register' render={(props) => <Register />} />
-        <AuthRoute
-          exact
-          path='/createTask'
-          render={(props) => <CreateTask />}
-        />
-        <AuthRoute exact path='/list' render={(props) => <TaskList />} />
-        <AuthRoute exact path='/settings' render={(props) => <Settings />} />
-        <AuthRoute render={(props) => <NotFound />} />
-      </Switch>
+        <Switch>
+          <Route exact path={LOGIN_URL} component={Login} />
+          <Route path={REGISTER_URL} component={Register} />
+          <AuthRoute path={HOME_URL} component={CreateTask} />
+          <AuthRoute path={TASKLIST_URL} component={TaskList} />
+          <AuthRoute path={SETTINGS_URL} component={Settings} />
+          <AuthRoute component={NotFound} />
+        </Switch>
+      </>
     </Router>
   )
 }

@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState } from 'react'
+import { useHistory } from 'react-router-dom'
 import {
   Collapse,
   Navbar,
@@ -6,87 +7,88 @@ import {
   NavbarBrand,
   Nav,
   NavItem,
-  NavLink,
-} from "reactstrap";
-import { connect } from "react-redux";
-import PropTypes from "prop-types";
-import { logout } from "../Auth/authActions";
+  NavLink
+} from 'reactstrap'
+import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
+import { logout } from '../Auth/authActions'
+import {
+  LOGIN_URL,
+  REGISTER_URL,
+  HOME_URL,
+  TASKLIST_URL,
+  SETTINGS_URL
+} from '../Routes'
+import hasToken from '../Utils'
 
-const NavigationBar = (props) => {
-  const [isOpen, setIsOpen] = useState(false);
+const NavigationBar = ({ isAuthenticated, isLoading, logout, ...props }) => {
+  const history = useHistory()
+  const [isOpen, setIsOpen] = useState(false)
 
-  const toggle = () => setIsOpen(!isOpen);
+  const toggle = () => setIsOpen(!isOpen)
 
-  const logout = (e) => {
-    props.logout();
-  };
-
-  const notLoggedIn = (
-    <Nav navbar>
-      <NavItem>
-        <NavLink href="/">Login</NavLink>
-      </NavItem>
-      <NavItem>
-        <NavLink href="/register">Register</NavLink>
-      </NavItem>
-    </Nav>
-  );
-
-  const loggedIn = (
-    <React.Fragment>
-      <Nav navbar>
-        <NavItem>
-          <NavLink href="/createTask">Create</NavLink>
-        </NavItem>
-        <NavItem>
-          <NavLink href="/list">List</NavLink>
-        </NavItem>
-        <NavItem>
-          <NavLink href="/settings">Settings</NavLink>
-        </NavItem>
-      </Nav>
-      <Nav className="ml-auto" navbar>
-        <NavItem>
-          <NavLink href="#" onClick={logout}>
-            Log Out
-          </NavLink>
-        </NavItem>
-      </Nav>
-    </React.Fragment>
-  );
-
-  let renderComponent = null;
-  if (props.isLoading) {
-    renderComponent = null;
-  } else if (props.isAuthenticated) {
-    renderComponent = loggedIn;
-  } else {
-    renderComponent = notLoggedIn;
+  const signOut = () => {
+    logout()
+    history.push(LOGIN_URL)
   }
 
-  return (
-    <Navbar color="dark" dark expand="sm">
-      <NavbarBrand href={props.isAuthenticated ? "/createTask" : "/"}>
+  return isLoading ? null : (
+    <Navbar color='dark' dark expand='sm'>
+      <NavbarBrand href={hasToken() ? HOME_URL : LOGIN_URL}>
         Task Manager
       </NavbarBrand>
       <NavbarToggler onClick={toggle} />
       <Collapse isOpen={isOpen} navbar>
-        {renderComponent}
+        {hasToken() ? (
+          <>
+            <Nav navbar>
+              <NavItem>
+                <NavLink href={HOME_URL}>Create</NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink href={TASKLIST_URL}>List</NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink href={SETTINGS_URL}>Settings</NavLink>
+              </NavItem>
+            </Nav>
+            <Nav className='ml-auto' navbar>
+              <NavItem>
+                <NavLink href='#' onClick={signOut}>
+                  Log Out
+                </NavLink>
+              </NavItem>
+            </Nav>
+          </>
+        ) : (
+          <Nav navbar>
+            <NavItem>
+              <NavLink href={LOGIN_URL}>Login</NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink href={REGISTER_URL}>Register</NavLink>
+            </NavItem>
+          </Nav>
+        )}
       </Collapse>
     </Navbar>
-  );
-};
+  )
+}
 
 NavigationBar.propTypes = {
-  isLoading: PropTypes.bool.isRequired,
   isAuthenticated: PropTypes.bool.isRequired,
-  logout: PropTypes.func.isRequired,
-};
+  isLoading: PropTypes.bool.isRequired,
+  logout: PropTypes.func.isRequired
+}
 
 const mapStateToProps = (state) => ({
-  isLoading: state.auth.isLoading,
   isAuthenticated: state.auth.isAuthenticated,
-  logout: state.auth.logout,
-});
+  isLoading: state.auth.isLoading,
+  logout: state.auth.logout
+})
 
-export default connect(mapStateToProps, { logout })(NavigationBar);
+const mapDispatchToProps = {
+  logout
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(NavigationBar)

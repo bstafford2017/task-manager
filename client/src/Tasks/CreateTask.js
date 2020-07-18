@@ -17,7 +17,7 @@ import {
 } from 'reactstrap'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import categories from '../categories'
+import categories from '../Categories'
 import { addTask } from './taskActions'
 import { toast } from 'react-toastify'
 
@@ -89,7 +89,11 @@ const CreateTask = (props) => {
                       Select
                     </option>
                     {categories.map((e) => {
-                      return <option value={e}>{e}</option>
+                      return (
+                        <option key={e} value={e}>
+                          {e}
+                        </option>
+                      )
                     })}
                   </Input>
                 </FormGroup>
@@ -145,4 +149,8 @@ const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated
 })
 
-export default connect(mapStateToProps, { addTask })(CreateTask)
+const mapDispatchToProps = {
+  addTask
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CreateTask)

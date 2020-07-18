@@ -3,7 +3,7 @@ import { Input } from 'reactstrap'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Button } from 'reactstrap'
-import categories from '../categories'
+import categories from '../Categories'
 import { deleteTask, updateTask } from './taskActions'
 import { toast } from 'react-toastify'
 
@@ -108,7 +108,7 @@ const Task = (props) => {
 
 Task.propTypes = {
   task: PropTypes.object.isRequired,
-  isAdmin: PropTypes.bool.isRequired,
+  isAdmin: PropTypes.bool,
   deleteTask: PropTypes.func.isRequired,
   updateTask: PropTypes.func.isRequired
 }

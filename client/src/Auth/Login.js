@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState } from 'react'
 import {
   Container,
   Row,
@@ -13,30 +13,34 @@ import {
   Input,
   Alert,
   Button,
-  CardFooter,
-} from "reactstrap";
-import { Link, Redirect } from "react-router-dom";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
-import { login } from "./authActions";
+  CardFooter
+} from 'reactstrap'
+import { Link, useHistory } from 'react-router-dom'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import { login } from './authActions'
+import { HOME_URL } from '../Routes'
 
-const Login = (props) => {
+const Login = ({ login, ...props }) => {
+  const history = useHistory()
   const [user, setUser] = useState({
-    username: "",
-    password: "",
-  });
+    username: '',
+    password: ''
+  })
 
   const onChange = (e) => {
     setUser({
       ...user,
-      [e.target.id]: e.target.value,
-    });
-  };
+      [e.target.id]: e.target.value
+    })
+  }
 
-  const onSubmit = async () => {
-    props.login(user);
-    return <Redirect to="/createTask" />;
-  };
+  const onSubmit = async (e) => {
+    await login(user)
+    history.push(HOME_URL)
+  }
+
+  const { username, password } = user
 
   return (
     <Container fluid>
@@ -44,40 +48,40 @@ const Login = (props) => {
         <Col xs={{ size: 12 }} md={{ size: 6, offset: 3 }}>
           <Card>
             <CardHeader>
-              <h3 style={{ textAlign: "center" }}>Login</h3>
+              <h3 style={{ textAlign: 'center' }}>Login</h3>
             </CardHeader>
             <CardBody>
               <Form>
                 {props.error.msg.msg ? (
-                  <Alert color="danger">{props.error.msg.msg}</Alert>
+                  <Alert color='danger'>{props.error.msg.msg}</Alert>
                 ) : null}
                 <FormGroup>
-                  <Label for="username">Username</Label>
+                  <Label for='username'>Username</Label>
                   <Input
-                    type="text"
-                    id="username"
-                    value={user.username}
+                    type='text'
+                    id='username'
+                    value={username}
                     onChange={onChange}
                   />
                 </FormGroup>
                 <FormGroup>
-                  <Label for="password">Password</Label>
+                  <Label for='password'>Password</Label>
                   <Input
-                    type="text"
-                    id="password"
-                    value={user.password}
+                    type='password'
+                    id='password'
+                    value={password}
                     onChange={onChange}
                   />
                 </FormGroup>
               </Form>
-              <FormText color="muted">
-                Do not have an account?{" "}
-                <Link to="/register">Register today!</Link>
+              <FormText color='muted'>
+                Do not have an account?{' '}
+                <Link to='/register'>Register today!</Link>
               </FormText>
             </CardBody>
             <CardFooter>
               <Button
-                className="col-12 col-sm-4 offset-sm-4"
+                className='col-12 col-sm-4 offset-sm-4'
                 onClick={onSubmit}
               >
                 Submit
@@ -87,17 +91,19 @@ const Login = (props) => {
         </Col>
       </Row>
     </Container>
-  );
-};
+  )
+}
 
 Login.propTypes = {
-  isAuthenticated: PropTypes.bool.isRequired,
-  error: PropTypes.object.isRequired,
-};
+  error: PropTypes.object.isRequired
+}
 
 const mapStateToProps = (state) => ({
-  isAuthenticated: state.auth.isAuthenticated,
-  error: state.error,
-});
+  error: state.error
+})
 
-export default connect(mapStateToProps, { login })(Login);
+const mapDispatchToProps = {
+  login
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login)

@@ -5,8 +5,7 @@ import { connect } from 'react-redux'
 import Task from './Task'
 import { getTasks } from '../Tasks/taskActions'
 
-const TaskList = (props) => {
-  const { getTasks } = props
+const TaskList = ({ getTasks, tasks, ...props }) => {
   useEffect(() => {
     getTasks()
   }, [getTasks])
@@ -28,7 +27,7 @@ const TaskList = (props) => {
           </tr>
         </thead>
         <tbody style={{ textAlign: 'center' }}>
-          {props.tasks.map((task) => (
+          {tasks.map((task) => (
             <Task key={task._id} task={task} />
           ))}
         </tbody>
@@ -40,7 +39,7 @@ const TaskList = (props) => {
 TaskList.propTypes = {
   getTasks: PropTypes.func.isRequired,
   tasks: PropTypes.array.isRequired,
-  isAdmin: PropTypes.bool.isRequired,
+  isAdmin: PropTypes.bool,
   isAuthenticated: PropTypes.bool.isRequired
 }
 
@@ -50,4 +49,8 @@ const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated
 })
 
-export default connect(mapStateToProps, { getTasks })(TaskList)
+const mapDispatchToProps = {
+  getTasks
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(TaskList)

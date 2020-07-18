@@ -5,7 +5,7 @@ import {
   TASKS_LOADING,
   AUTH_ERROR,
   UPDATE_TASK
-} from '../types'
+} from '../Actions'
 import axios from 'axios'
 import { tokenConfig } from '../Auth/authActions'
 import { returnErrors } from '../Error/errorActions'
