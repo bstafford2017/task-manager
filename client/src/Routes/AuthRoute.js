@@ -6,12 +6,7 @@ import { LOGIN_URL } from '.'
 import { loadUser } from '../Auth/authActions'
 import hasToken from '../Utils'
 
-const AuthRoute = ({
-  isAuthenticated,
-  loadUser,
-  component: Component,
-  ...rest
-}) => {
+const AuthRoute = ({ loadUser, isLoading, component: Component, ...rest }) => {
   useEffect(() => {
     loadUser()
   }, [loadUser])
@@ -20,7 +15,11 @@ const AuthRoute = ({
     <Route
       {...rest}
       render={(props) =>
-        hasToken() ? <Component {...props} /> : <Redirect to={LOGIN_URL} />
+        isLoading ? null : hasToken() ? (
+          <Component {...props} />
+        ) : (
+          <Redirect to={LOGIN_URL} />
+        )
       }
     />
   )
@@ -29,12 +28,11 @@ const AuthRoute = ({
 AuthRoute.propTypes = {
   path: PropTypes.string.isRequired,
   component: PropTypes.object.isRequired,
-  isAuthenticated: PropTypes.bool.isRequired,
   loadUser: PropTypes.func.isRequired
 }
 
 const mapStateToProps = (state) => ({
-  isAuthenticated: state.auth.isAuthenticated
+  isLoading: state.auth.isLoading
 })
 
 const mapDispatchToProps = {

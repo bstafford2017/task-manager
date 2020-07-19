@@ -19,14 +19,17 @@ import { Link, useHistory } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { login } from './authActions'
+import { returnErrors, clearErrors } from '../Error/errorActions'
 import { HOME_URL } from '../Routes'
 
-const Login = ({ login, ...props }) => {
+const Login = ({ login, returnErrors, clearErrors, error, ...props }) => {
   const history = useHistory()
   const [user, setUser] = useState({
     username: '',
     password: ''
   })
+
+  const { username, password } = user
 
   const onChange = (e) => {
     setUser({
@@ -36,11 +39,14 @@ const Login = ({ login, ...props }) => {
   }
 
   const onSubmit = async (e) => {
-    await login(user)
-    history.push(HOME_URL)
+    if (username && password) {
+      await login(user)
+      clearErrors()
+      history.push(HOME_URL)
+    } else {
+      returnErrors('Please fill out the entire form', null, null)
+    }
   }
-
-  const { username, password } = user
 
   return (
     <Container fluid>
@@ -52,9 +58,7 @@ const Login = ({ login, ...props }) => {
             </CardHeader>
             <CardBody>
               <Form>
-                {props.error.msg.msg ? (
-                  <Alert color='danger'>{props.error.msg.msg}</Alert>
-                ) : null}
+                {error ? <Alert color='danger'>{error}</Alert> : null}
                 <FormGroup>
                   <Label for='username'>Username</Label>
                   <Input
@@ -98,15 +102,19 @@ const Login = ({ login, ...props }) => {
 }
 
 Login.propTypes = {
-  error: PropTypes.object.isRequired
+  error: PropTypes.string.isRequired,
+  returnErrors: PropTypes.func.isRequired,
+  clearErrors: PropTypes.func.isRequired
 }
 
 const mapStateToProps = (state) => ({
-  error: state.error
+  error: state.error.msg
 })
 
 const mapDispatchToProps = {
-  login
+  login,
+  returnErrors,
+  clearErrors
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login)

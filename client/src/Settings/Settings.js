@@ -83,12 +83,16 @@ const Settings = ({
   }
 
   const onUpdateUser = (e) => {
-    if (password !== confirmPassword) {
-      returnErrors('Passwords do not match.', null, null)
+    if (Object.values(user).some((u) => u)) {
+      if (password !== confirmPassword) {
+        returnErrors('Passwords do not match.', null, null)
+      } else {
+        toast.success('Updated user!')
+        updateUser(user)
+        clearErrors()
+      }
     } else {
-      toast.success('Updated user!')
-      updateUser(user)
-      clearErrors()
+      returnErrors('Please fill out the entire form', null, null)
     }
   }
 

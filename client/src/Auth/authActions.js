@@ -7,7 +7,8 @@ import {
   LOGIN_SUCCESS,
   LOGOUT_SUCCESS,
   AUTH_ERROR,
-  DELETE_USER
+  DELETE_USER,
+  LOGIN_ERROR
 } from '../Actions'
 import { returnErrors } from '../Error/errorActions'
 import axios from 'axios'
@@ -40,13 +41,9 @@ export const login = (user) => async (dispatch) => {
       payload: response.data
     })
   } catch (err) {
-    returnErrors(
-      err.response.data,
-      err.response.status,
-      'System Error: Failed to login'
-    )
+    returnErrors(err.response.data, err.response.status, err.response.msg)
     dispatch({
-      type: REGISTER_ERROR
+      type: LOGIN_ERROR
     })
   }
 }

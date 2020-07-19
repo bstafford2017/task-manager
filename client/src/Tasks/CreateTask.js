@@ -20,9 +20,15 @@ import { connect } from 'react-redux'
 import categories from '../Categories'
 import { addTask } from './taskActions'
 import { toast } from 'react-toastify'
+import { returnErrors, clearErrors } from '../Error/errorActions'
 
-const CreateTask = (props) => {
-  // Array destructuring
+const CreateTask = ({
+  addTask,
+  error,
+  returnErrors,
+  clearErrors,
+  ...props
+}) => {
   const [task, setTask] = useState({
     title: '',
     category: '',
@@ -45,14 +51,19 @@ const CreateTask = (props) => {
   }
 
   const onSubmit = async (e) => {
-    toast.success('Added new task')
-    props.addTask(task)
-    setTask({
-      title: '',
-      category: '',
-      description: '',
-      important: false
-    })
+    if (Object.values(task).some((t) => t)) {
+      toast.success('Added new task')
+      addTask(task)
+      setTask({
+        title: '',
+        category: '',
+        description: '',
+        important: false
+      })
+      clearErrors()
+    } else {
+      returnErrors('Please fill out the entire form', null, null)
+    }
   }
 
   return (
@@ -65,9 +76,7 @@ const CreateTask = (props) => {
             </CardHeader>
             <CardBody>
               <Form>
-                {props.error.msg.msg ? (
-                  <Alert color='danger'>{props.error.msg.msg}</Alert>
-                ) : null}
+                {error ? <Alert color='danger'>{error}</Alert> : null}
                 <FormGroup>
                   <Label for='title'>Title</Label>
                   <Input
@@ -141,17 +150,19 @@ const CreateTask = (props) => {
 
 CreateTask.propTypes = {
   addTask: PropTypes.func.isRequired,
-  error: PropTypes.object.isRequired,
-  isAuthenticated: PropTypes.bool.isRequired
+  isAuthenticated: PropTypes.bool.isRequired,
+  error: PropTypes.string.isRequired
 }
 
 const mapStateToProps = (state) => ({
-  error: state.error,
-  isAuthenticated: state.auth.isAuthenticated
+  isAuthenticated: state.auth.isAuthenticated,
+  error: state.error.msg
 })
 
 const mapDispatchToProps = {
-  addTask
+  addTask,
+  returnErrors,
+  clearErrors
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateTask)

@@ -17,12 +17,13 @@ import {
   FormText
 } from 'reactstrap'
 import { connect } from 'react-redux'
-import { Link } from 'react-router-dom'
-
+import { Link, useHistory } from 'react-router-dom'
 import { register } from './authActions'
 import { returnErrors, clearErrors } from '../Error/errorActions'
+import { LOGIN_URL } from '../Routes'
 
-const Register = (props) => {
+const Register = ({ register, error, returnErrors, clearErrors, ...props }) => {
+  const history = useHistory()
   const [user, setUser] = useState({
     username: '',
     password: '',
@@ -32,6 +33,15 @@ const Register = (props) => {
     email: ''
   })
 
+  const {
+    username,
+    password,
+    confirmPassword,
+    firstName,
+    lastName,
+    email
+  } = user
+
   const onChange = (e) => {
     setUser({
       ...user,
@@ -40,11 +50,23 @@ const Register = (props) => {
   }
 
   const onRegister = async (e) => {
-    if (user.password !== user.confirmPassword) {
-      props.returnErrors('Passwords do not match.', null, null)
+    if (
+      username &&
+      password &&
+      confirmPassword &&
+      firstName &&
+      lastName &&
+      email
+    ) {
+      if (password !== confirmPassword) {
+        returnErrors('Passwords do not match', null, null)
+      } else {
+        register(user)
+        clearErrors()
+        history.push(LOGIN_URL)
+      }
     } else {
-      props.register(user)
-      props.clearErrors()
+      returnErrors('Please fill out the entire form', null, null)
     }
   }
 
@@ -60,15 +82,13 @@ const Register = (props) => {
               <Form>
                 <Row form>
                   <Col xs={12}>
-                    {props.error.msg.msg ? (
-                      <Alert color='danger'>{props.error.msg.msg}</Alert>
-                    ) : null}
+                    {error ? <Alert color='danger'>{error}</Alert> : null}
                     <FormGroup>
                       <Label for='username'>Username</Label>
                       <Input
                         type='text'
                         id='username'
-                        value={user.username}
+                        value={username}
                         onChange={onChange}
                       />
                     </FormGroup>
@@ -81,7 +101,7 @@ const Register = (props) => {
                       <Input
                         type='password'
                         id='password'
-                        value={user.password}
+                        value={password}
                         onChange={onChange}
                       />
                     </FormGroup>
@@ -92,7 +112,7 @@ const Register = (props) => {
                       <Input
                         type='password'
                         id='confirmPassword'
-                        value={user.confirmPassword}
+                        value={confirmPassword}
                         onChange={onChange}
                       />
                     </FormGroup>
@@ -105,7 +125,7 @@ const Register = (props) => {
                       <Input
                         type='text'
                         id='firstName'
-                        value={user.firstName}
+                        value={firstName}
                         onChange={onChange}
                       />
                     </FormGroup>
@@ -116,7 +136,7 @@ const Register = (props) => {
                       <Input
                         type='text'
                         id='lastName'
-                        value={user.lastName}
+                        value={lastName}
                         onChange={onChange}
                       />
                     </FormGroup>
@@ -129,7 +149,7 @@ const Register = (props) => {
                       <Input
                         type='text'
                         id='email'
-                        value={user.email}
+                        value={email}
                         onChange={onChange}
                       />
                     </FormGroup>
@@ -164,20 +184,14 @@ const Register = (props) => {
 }
 
 Register.propTypes = {
-  getUser: PropTypes.func.isRequired,
-  updateUser: PropTypes.func.isRequired,
-  user: PropTypes.object.isRequired,
-  isAuthenticated: PropTypes.bool.isRequired,
-  error: PropTypes.object.isRequired,
+  error: PropTypes.string.isRequired,
   register: PropTypes.func.isRequired,
   returnErrors: PropTypes.func.isRequired,
   clearErrors: PropTypes.func.isRequired
 }
 
 const mapStateToProps = (state) => ({
-  user: state.user,
-  isAuthenticated: state.auth.isAuthenticated,
-  error: state.error
+  error: state.error.msg
 })
 
 const mapDispatchToProps = {
