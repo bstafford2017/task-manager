@@ -12,7 +12,7 @@ const TaskList = ({ getTasks, tasks, ...props }) => {
 
   return (
     <Container fluid>
-      <h3 style={{ textAlign: 'center' }}>Task List</h3>
+      <h2 style={{ textAlign: 'center' }}>Task List</h2>
       <Table dark>
         <thead>
           <tr style={{ textAlign: 'center' }}>

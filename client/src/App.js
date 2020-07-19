@@ -38,7 +38,7 @@ const App = ({ isLoading, ...props }) => {
     <Router>
       <ToastContainer />
       {isLoading ? (
-        <Spinner color='dark' size='lg' type='grow' style={spinnerStyle} />
+        <Spinner color='success' size='lg' type='grow' style={spinnerStyle} />
       ) : null}
       <>
         <NavigationBar />

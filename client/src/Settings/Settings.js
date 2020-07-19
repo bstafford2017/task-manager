@@ -204,12 +204,20 @@ const Settings = ({
             <CardFooter>
               <Row>
                 <Col xs={12}>
-                  <Button className='col-12 m-2' onClick={onUpdateUser}>
+                  <Button
+                    className='col-12 m-2'
+                    color='success'
+                    onClick={onUpdateUser}
+                  >
                     Update
                   </Button>
                 </Col>
                 <Col xs={12}>
-                  <Button className='col-12 m-2' onClick={onDeleteUser}>
+                  <Button
+                    className='col-12 m-2'
+                    color='success'
+                    onClick={onDeleteUser}
+                  >
                     Delete
                   </Button>
                 </Col>

@@ -137,13 +137,20 @@ const Register = (props) => {
                 </Row>
               </Form>
               <FormText color='muted'>
-                Have an account? <Link to='/'>Login here!</Link>
+                Have an account?{' '}
+                <Link to='/' className='text-success'>
+                  Login here!
+                </Link>
               </FormText>
             </CardBody>
             <CardFooter>
               <Row>
                 <Col xs={12}>
-                  <Button className='col-12 m-2' onClick={onRegister}>
+                  <Button
+                    className='col-12 m-2'
+                    color='success'
+                    onClick={onRegister}
+                  >
                     Register
                   </Button>
                 </Col>

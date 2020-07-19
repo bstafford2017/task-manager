@@ -88,7 +88,7 @@ const Task = (props) => {
           <td>
             <Button
               outline={toggleEdit ? true : null}
-              color='secondary'
+              color='success'
               size='sm'
               onClick={onToggle}
             >

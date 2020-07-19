@@ -33,7 +33,7 @@ const NavigationBar = ({ isAuthenticated, isLoading, logout, ...props }) => {
   }
 
   return isLoading ? null : (
-    <Navbar color='dark' dark expand='sm'>
+    <Navbar color='success' dark expand='sm'>
       <NavbarBrand href={hasToken() ? HOME_URL : LOGIN_URL}>
         Task Manager
       </NavbarBrand>

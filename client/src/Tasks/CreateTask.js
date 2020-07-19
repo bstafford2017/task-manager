@@ -126,6 +126,7 @@ const CreateTask = (props) => {
             <CardFooter>
               <Button
                 className='col-12 col-sm-4 offset-sm-4'
+                color='success'
                 onClick={onSubmit}
               >
                 Submit

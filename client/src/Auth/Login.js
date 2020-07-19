@@ -76,12 +76,15 @@ const Login = ({ login, ...props }) => {
               </Form>
               <FormText color='muted'>
                 Do not have an account?{' '}
-                <Link to='/register'>Register today!</Link>
+                <Link to='/register' className='text-success'>
+                  Register today!
+                </Link>
               </FormText>
             </CardBody>
             <CardFooter>
               <Button
                 className='col-12 col-sm-4 offset-sm-4'
+                color='success'
                 onClick={onSubmit}
               >
                 Submit
