@@ -25,11 +25,13 @@ Router.get('/', auth, async (req, res) => {
 // @desc    Create a task
 // @access  Private
 Router.post('/', auth, async (req, res) => {
-  const { title, category, description, important } = req.body
+  req.body = req.body.map((e) => removeSpecialCharacters(e))
 
-  if (!title || !category || !description || typeof important === 'undefined') {
+  if (Object.values(req.body).some((e) => !e)) {
     return res.status(400).json({ msg: 'Please enter all fields.' })
   }
+
+  const { title, category, description, important } = req.body
 
   try {
     const newTask = new Task({
@@ -48,11 +50,13 @@ Router.post('/', auth, async (req, res) => {
 // @desc    Update a task
 // @access  Private
 Router.post('/:id', auth, async (req, res) => {
-  const { title, category, description, important } = req.body
+  req.body = req.body.map((e) => removeSpecialCharacters(e))
 
-  if (!title || !category || !description || typeof important === 'undefined') {
+  if (Object.values(req.body).some((e) => !e)) {
     return res.status(400).json({ msg: 'Please enter all fields.' })
   }
+
+  const { title, category, description, important } = req.body
 
   try {
     const updateTask = {

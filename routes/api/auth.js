@@ -6,6 +6,7 @@ import auth from '../../middleware/auth.js'
 
 // User Modal
 import User from '../../models/User.js'
+import { removeSpecialCharacters } from '../utils/specialCharacters.js'
 
 const Router = express.Router()
 
@@ -13,11 +14,13 @@ const Router = express.Router()
 // @desc    Authenticate user
 // @access  Public
 Router.post('/login', async (req, res) => {
-  const { username, password } = req.body
+  req.body = req.body.map((e) => removeSpecialCharacters(e))
 
-  if (!username || !password) {
+  if (Object.values(req.body).some((e) => !e)) {
     return res.status(400).json({ msg: 'Please enter all fields.' })
   }
+
+  const { username, password } = req.body
 
   try {
     const user = await User.findOne({ username })
@@ -51,11 +54,13 @@ Router.post('/login', async (req, res) => {
 // @desc    Register a user
 // @access  Public
 Router.post('/register', async (req, res) => {
-  const { username, password, firstName, lastName, email } = req.body
+  req.body = req.body.map((e) => removeSpecialCharacters(e))
 
-  if (!username || !password || !firstName || !lastName || !email) {
-    return res.status(400).json({ msg: 'Please enter all fields' })
+  if (Object.values(req.body).some((e) => !e)) {
+    return res.status(400).json({ msg: 'Please enter all fields.' })
   }
+
+  const { username, password, firstName, lastName, email } = req.body
 
   try {
     // Check for unique username
@@ -96,14 +101,7 @@ Router.post('/register', async (req, res) => {
     // Send back user without password
     res.json({
       token,
-      user: {
-        id: savedUser.id,
-        username: savedUser.username,
-        firstName: savedUser.firstName,
-        lastName: savedUser.lastName,
-        email: savedUser.email,
-        admin: savedUser.admin
-      }
+      user: savedUser
     })
   } catch (err) {
     res.status(400).json({ msg: err.message })

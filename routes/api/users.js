@@ -6,6 +6,7 @@ import auth from '../../middleware/auth.js'
 
 // User Modal
 import User from '../../models/User.js'
+import { removeSpecialCharacters } from '../utils/specialCharacters.js'
 
 const Router = express.Router()
 
@@ -29,13 +30,14 @@ Router.get('/', auth, async (req, res) => {
 // @access  Private
 Router.post('/:id', auth, async (req, res) => {
   try {
-    const updateUser = {
-      username: req.body.username,
-      password: req.body.password,
-      firstName: req.body.firstName,
-      lastName: req.body.lastName,
-      admin: req.body.admin
+    req.body = req.body.map((e) => removeSpecialCharacters(e))
+
+    if (Object.values(req.body).some((e) => !e)) {
+      return res.status(400).json({ msg: 'Please enter all fields.' })
     }
+
+    const { username, password, firstName, lastName, admin } = req.body
+
     res.json(
       await User.findOneAndUpdate({ _id: req.params.id }, updateUser, {
         new: true
