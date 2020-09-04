@@ -1,16 +1,11 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import { Route, Redirect } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { LOGIN_URL } from '.'
-import { loadUser } from '../Auth/authActions'
 import hasToken from '../Utils'
 
 const AuthRoute = ({ loadUser, isLoading, component: Component, ...rest }) => {
-  useEffect(() => {
-    loadUser()
-  }, [loadUser])
-
   return (
     <Route
       {...rest}
@@ -27,16 +22,11 @@ const AuthRoute = ({ loadUser, isLoading, component: Component, ...rest }) => {
 
 AuthRoute.propTypes = {
   path: PropTypes.string.isRequired,
-  component: PropTypes.object.isRequired,
-  loadUser: PropTypes.func.isRequired
+  component: PropTypes.object.isRequired
 }
 
 const mapStateToProps = (state) => ({
   isLoading: state.auth.isLoading
 })
 
-const mapDispatchToProps = {
-  loadUser
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(AuthRoute)
+export default connect(mapStateToProps)(AuthRoute)

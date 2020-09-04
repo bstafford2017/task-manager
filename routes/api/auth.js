@@ -14,7 +14,7 @@ const Router = express.Router()
 // @desc    Authenticate user
 // @access  Public
 Router.post('/login', async (req, res) => {
-  req.body = req.body.map((e) => removeSpecialCharacters(e))
+  req.body = Object.values(req.body).map((e) => removeSpecialCharacters(e))
 
   if (Object.values(req.body).some((e) => !e)) {
     return res.status(400).json({ msg: 'Please enter all fields.' })

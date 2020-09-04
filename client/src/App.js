@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import { loadUser } from './Auth/authActions'
 import AuthRoute from './Routes/AuthRoute'
 import NavigationBar from './Navigation/NavigationBar'
 import Login from './Auth/Login'
@@ -34,6 +35,10 @@ const App = ({ isLoading, ...props }) => {
     height: '5rem'
   }
 
+  useEffect(() => {
+    loadUser()
+  }, [])
+
   return (
     <Router>
       <ToastContainer />
@@ -41,7 +46,7 @@ const App = ({ isLoading, ...props }) => {
         <Spinner color='success' size='lg' type='grow' style={spinnerStyle} />
       ) : null}
       <>
-        <NavigationBar />
+        <Route path={LOGIN_URL} component={NavigationBar} />
         <Switch>
           <Route exact path={LOGIN_URL} component={Login} />
           <Route path={REGISTER_URL} component={Register} />
@@ -63,4 +68,8 @@ const mapStateToProps = (state) => ({
   isLoading: state.auth.isLoading
 })
 
-export default connect(mapStateToProps)(App)
+const mapDispatchToProps = {
+  loadUser
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App)

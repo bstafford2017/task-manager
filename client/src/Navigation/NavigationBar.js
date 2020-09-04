@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useHistory } from 'react-router-dom'
+import { useHistory, NavLink as RRNavLink } from 'react-router-dom'
 import {
   Collapse,
   Navbar,
@@ -43,13 +43,19 @@ const NavigationBar = ({ isAuthenticated, isLoading, logout, ...props }) => {
           <>
             <Nav navbar>
               <NavItem>
-                <NavLink href={HOME_URL}>Create</NavLink>
+                <NavLink to={HOME_URL} tag={RRNavLink}>
+                  Create
+                </NavLink>
               </NavItem>
               <NavItem>
-                <NavLink href={TASKLIST_URL}>List</NavLink>
+                <NavLink to={TASKLIST_URL} tag={RRNavLink}>
+                  List
+                </NavLink>
               </NavItem>
               <NavItem>
-                <NavLink href={SETTINGS_URL}>Settings</NavLink>
+                <NavLink to={SETTINGS_URL} tag={RRNavLink}>
+                  Settings
+                </NavLink>
               </NavItem>
             </Nav>
             <Nav className='ml-auto' navbar>
@@ -63,10 +69,14 @@ const NavigationBar = ({ isAuthenticated, isLoading, logout, ...props }) => {
         ) : (
           <Nav navbar>
             <NavItem>
-              <NavLink href={LOGIN_URL}>Login</NavLink>
+              <NavLink to={LOGIN_URL} tag={RRNavLink}>
+                Login
+              </NavLink>
             </NavItem>
             <NavItem>
-              <NavLink href={REGISTER_URL}>Register</NavLink>
+              <NavLink to={REGISTER_URL} tag={RRNavLink}>
+                Register
+              </NavLink>
             </NavItem>
           </Nav>
         )}
