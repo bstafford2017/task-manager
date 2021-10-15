@@ -10,7 +10,7 @@ import {
   DELETE_USER,
   LOGIN_ERROR
 } from '../Actions'
-import { returnErrors } from '../Error/errorActions'
+import { setErrors } from '../Error/errorActions'
 import axios from 'axios'
 
 // Setup config/headers and token
@@ -41,7 +41,7 @@ export const login = (user) => async (dispatch) => {
       payload: response.data
     })
   } catch (err) {
-    returnErrors(err.response.data, err.response.status, err.response.msg)
+    setErrors(err.response.data, err.response.status, err.response.message)
     dispatch({
       type: LOGIN_ERROR
     })
@@ -56,7 +56,7 @@ export const register = (user) => async (dispatch) => {
       payload: response.data
     })
   } catch (err) {
-    returnErrors(
+    setErrors(
       err.response.data,
       err.response.status,
       'System Error: Failed to register'
@@ -79,7 +79,7 @@ export const updateUser = (updatedUser) => async (dispatch, getState) => {
       payload: updatedUser
     })
   } catch (err) {
-    returnErrors(
+    setErrors(
       err.response.data,
       err.response.status,
       'System Error: Failed to register'

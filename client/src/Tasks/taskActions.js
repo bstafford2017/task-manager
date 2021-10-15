@@ -8,7 +8,7 @@ import {
 } from '../Actions'
 import axios from 'axios'
 import { tokenConfig } from '../Auth/authActions'
-import { returnErrors } from '../Error/errorActions'
+import { setErrors } from '../Error/errorActions'
 
 export const getTasks = () => async (dispatch, getState) => {
   try {
@@ -21,7 +21,7 @@ export const getTasks = () => async (dispatch, getState) => {
   } catch (err) {
     alert(err)
     dispatch(
-      returnErrors(
+      setErrors(
         err.response.data,
         err.response.status,
         'System Error: Failed to get tasks.'
@@ -46,7 +46,7 @@ export const addTask = (addTask) => async (dispatch, getState) => {
     })
   } catch (err) {
     dispatch(
-      returnErrors(
+      setErrors(
         err.response.data,
         err.response.status,
         'System Error: Failed to add task.'
@@ -67,7 +67,7 @@ export const updateTask = (task) => async (dispatch, getState) => {
     })
   } catch (err) {
     dispatch(
-      returnErrors(
+      setErrors(
         err.response.data,
         err.response.status,
         'System Error: Failed to delete task.'
@@ -88,7 +88,7 @@ export const deleteTask = (id) => async (dispatch, getState) => {
     })
   } catch (err) {
     dispatch(
-      returnErrors(
+      setErrors(
         err.response.data,
         err.response.status,
         'System Error: Failed to delete task.'

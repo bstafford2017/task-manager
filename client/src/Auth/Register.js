@@ -19,10 +19,10 @@ import {
 import { connect } from 'react-redux'
 import { Link, useHistory } from 'react-router-dom'
 import { register } from './authActions'
-import { returnErrors, clearErrors } from '../Error/errorActions'
+import { setErrors, clearErrors } from '../Error/errorActions'
 import { LOGIN_URL } from '../Routes'
 
-const Register = ({ register, error, returnErrors, clearErrors, ...props }) => {
+const Register = ({ register, error, setErrors, clearErrors, ...props }) => {
   const history = useHistory()
   const [user, setUser] = useState({
     username: '',
@@ -59,14 +59,14 @@ const Register = ({ register, error, returnErrors, clearErrors, ...props }) => {
       email
     ) {
       if (password !== confirmPassword) {
-        returnErrors('Passwords do not match', null, null)
+        setErrors('Passwords do not match', null, null)
       } else {
         register(user)
         clearErrors()
         history.push(LOGIN_URL)
       }
     } else {
-      returnErrors('Please fill out the entire form', null, null)
+      setErrors('Please fill out the entire form', null, null)
     }
   }
 
@@ -186,17 +186,17 @@ const Register = ({ register, error, returnErrors, clearErrors, ...props }) => {
 Register.propTypes = {
   error: PropTypes.string.isRequired,
   register: PropTypes.func.isRequired,
-  returnErrors: PropTypes.func.isRequired,
+  setErrors: PropTypes.func.isRequired,
   clearErrors: PropTypes.func.isRequired
 }
 
 const mapStateToProps = (state) => ({
-  error: state.error.msg
+  error: state.error.message
 })
 
 const mapDispatchToProps = {
   register,
-  returnErrors,
+  setErrors,
   clearErrors
 }
 

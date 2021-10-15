@@ -1,7 +1,7 @@
 import { GET_ERRORS, CLEAR_ERRORS } from '../Actions'
 
 const initialState = {
-  msg: '',
+  message: '',
   status: null,
   id: null
 }
@@ -11,13 +11,13 @@ export default function (state = initialState, action) {
     case GET_ERRORS:
       return {
         ...state,
-        msg: action.payload.msg,
+        message: action.payload.message,
         status: action.payload.status,
         id: action.payload.id
       }
     case CLEAR_ERRORS:
       return {
-        msg: '',
+        message: '',
         status: '',
         id: null
       }

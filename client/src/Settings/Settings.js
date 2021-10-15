@@ -18,7 +18,7 @@ import {
 import { connect } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import { updateUser, deleteUser } from '../Auth/authActions'
-import { clearErrors, returnErrors } from '../Error/errorActions'
+import { clearErrors, setErrors } from '../Error/errorActions'
 import { toast } from 'react-toastify'
 import { LOGIN_URL } from '../Routes'
 
@@ -27,7 +27,7 @@ const Settings = ({
   deleteUser,
   updateUser,
   clearErrors,
-  returnErrors,
+  setErrors,
   ...props
 }) => {
   const history = useHistory()
@@ -85,14 +85,14 @@ const Settings = ({
   const onUpdateUser = (e) => {
     if (Object.values(user).some((u) => u)) {
       if (password !== confirmPassword) {
-        returnErrors('Passwords do not match.', null, null)
+        setErrors('Passwords do not match.', null, null)
       } else {
         toast.success('Updated user!')
         updateUser(user)
         clearErrors()
       }
     } else {
-      returnErrors('Please fill out the entire form', null, null)
+      setErrors('Please fill out the entire form', null, null)
     }
   }
 
@@ -114,8 +114,10 @@ const Settings = ({
               <Form>
                 <Row form>
                   <Col xs={12}>
-                    {props.error.msg.msg ? (
-                      <Alert color='danger'>{props.error.msg.msg}</Alert>
+                    {props.error.message.message ? (
+                      <Alert color='danger'>
+                        {props.error.message.message}
+                      </Alert>
                     ) : null}
                     <FormGroup>
                       <Label for='username'>Username</Label>
@@ -241,7 +243,7 @@ Settings.propTypes = {
   updateUser: PropTypes.func.isRequired,
   deleteUser: PropTypes.func.isRequired,
   clearErrors: PropTypes.func.isRequired,
-  returnErrors: PropTypes.func.isRequired
+  setErrors: PropTypes.func.isRequired
 }
 
 const mapStateToProps = (state) => ({
@@ -254,7 +256,7 @@ const mapDispatchToProps = {
   updateUser,
   deleteUser,
   clearErrors,
-  returnErrors
+  setErrors
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Settings)

@@ -19,10 +19,10 @@ import { Link, useHistory } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { login } from './authActions'
-import { returnErrors, clearErrors } from '../Error/errorActions'
+import { setErrors, clearErrors } from '../Error/errorActions'
 import { HOME_URL } from '../Routes'
 
-const Login = ({ login, returnErrors, clearErrors, error, ...props }) => {
+const Login = ({ login, setErrors, clearErrors, error, ...props }) => {
   const history = useHistory()
   const [user, setUser] = useState({
     username: '',
@@ -44,7 +44,7 @@ const Login = ({ login, returnErrors, clearErrors, error, ...props }) => {
       clearErrors()
       history.push(HOME_URL)
     } else {
-      returnErrors('Please fill out the entire form', null, null)
+      setErrors('Please fill out the entire form', null, null)
     }
   }
 
@@ -103,17 +103,17 @@ const Login = ({ login, returnErrors, clearErrors, error, ...props }) => {
 
 Login.propTypes = {
   error: PropTypes.string.isRequired,
-  returnErrors: PropTypes.func.isRequired,
+  setErrors: PropTypes.func.isRequired,
   clearErrors: PropTypes.func.isRequired
 }
 
 const mapStateToProps = (state) => ({
-  error: state.error.msg
+  error: state.error.message
 })
 
 const mapDispatchToProps = {
   login,
-  returnErrors,
+  setErrors,
   clearErrors
 }
 

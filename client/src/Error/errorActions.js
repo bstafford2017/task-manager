@@ -1,10 +1,10 @@
 import { GET_ERRORS, CLEAR_ERRORS } from '../Actions'
 
-export const returnErrors = (msg, status, id) => {
+export const setErrors = (message, status, id) => {
   return {
     type: GET_ERRORS,
     payload: {
-      msg,
+      message,
       status,
       id
     }

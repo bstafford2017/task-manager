@@ -20,15 +20,9 @@ import { connect } from 'react-redux'
 import categories from '../Categories'
 import { addTask } from './taskActions'
 import { toast } from 'react-toastify'
-import { returnErrors, clearErrors } from '../Error/errorActions'
+import { setErrors, clearErrors } from '../Error/errorActions'
 
-const CreateTask = ({
-  addTask,
-  error,
-  returnErrors,
-  clearErrors,
-  ...props
-}) => {
+const CreateTask = ({ addTask, error, setErrors, clearErrors, ...props }) => {
   const [task, setTask] = useState({
     title: '',
     category: '',
@@ -62,7 +56,7 @@ const CreateTask = ({
       })
       clearErrors()
     } else {
-      returnErrors('Please fill out the entire form', null, null)
+      setErrors('Please fill out the entire form', null, null)
     }
   }
 
@@ -156,12 +150,12 @@ CreateTask.propTypes = {
 
 const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
-  error: state.error.msg
+  error: state.error.message
 })
 
 const mapDispatchToProps = {
   addTask,
-  returnErrors,
+  setErrors,
   clearErrors
 }
 

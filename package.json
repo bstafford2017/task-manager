@@ -4,21 +4,18 @@
   "description": "Management system for IT support tasks",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",
-    "server": "nodemon server.js",
     "client": "npm start --prefix client",
     "client-install": "npm install --prefix client",
-    "dev": "run-p server client",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "sls": "sls offline start",
+    "deploy": "serverless deploy"
   },
   "author": "Benjamin Stafford",
   "license": "MIT",
   "dependencies": {
+    "aws-sdk": "^2.1008.0",
     "bcryptjs": "^2.4.3",
-    "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^5.9.25",
-    "npm-run-all": "^4.1.5",
     "react-toastify": "^6.0.8"
   },
   "devDependencies": {
