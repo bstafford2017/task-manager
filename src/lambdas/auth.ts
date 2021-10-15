@@ -16,7 +16,7 @@ const userTable = process.env.USERS_TABLE || ''
 // @access  Public
 export const login = async (event: any) => {
   const { body } = event
-  const { username, password }: Login = JSON.parse(event)
+  const { username, password }: Login = JSON.parse(body)
 
   if (!username || !password) {
     return response(400)
