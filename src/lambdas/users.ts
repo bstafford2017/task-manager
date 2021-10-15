@@ -1,12 +1,13 @@
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import User from '../interfaces/user'
-import secret from '../config/index'
+import { secret } from '../config/index'
 import { response } from '../utils'
 import { DynamoDB } from 'aws-sdk'
 import { v4 as uuid } from 'uuid'
 
 const db = new DynamoDB.DocumentClient()
+const userTable = process.env.USERS_TABLE || ''
 
 // @route   GET api/users
 // @desc    Get all users
@@ -15,7 +16,7 @@ export const getUsers = async () => {
   try {
     const { Items } = await db
       .scan({
-        TableName: process.env.USERS_TABLE
+        TableName: userTable
       })
       .promise()
     return response(200, Items)
@@ -39,7 +40,7 @@ export const createUser = async (event: any) => {
     // Check for unique username
     const { Items: foundUsernames } = await db
       .scan({
-        TableName: process.env.USERS_TABLE,
+        TableName: userTable,
         FilterExpression: 'username = :username',
         ExpressionAttributeValues: {
           ':username': username
@@ -47,14 +48,14 @@ export const createUser = async (event: any) => {
         Limit: 1
       })
       .promise()
-    if (foundUsernames.length > 0) {
+    if (foundUsernames && foundUsernames.length > 0) {
       return response(400, { message: 'Username already exists' })
     }
 
     // Check for unique email
     const { Items: foundEmails } = await db
       .scan({
-        TableName: process.env.USERS_TABLE,
+        TableName: userTable,
         FilterExpression: 'email = :email',
         ExpressionAttributeValues: {
           ':email': email
@@ -62,7 +63,7 @@ export const createUser = async (event: any) => {
         Limit: 1
       })
       .promise()
-    if (foundEmails.length > 0) {
+    if (foundEmails && foundEmails.length > 0) {
       return response(400, { message: 'Email already exists' })
     }
 
@@ -86,7 +87,7 @@ export const createUser = async (event: any) => {
 
     await db
       .put({
-        TableName: process.env.USERS_TABLE,
+        TableName: userTable,
         Item: user
       })
       .promise()
@@ -108,7 +109,7 @@ export const deleteUser = async (event: any) => {
     const { id } = pathParameters
     await db
       .delete({
-        TableName: process.env.USERS_TABLE,
+        TableName: userTable,
         Key: {
           id
         }

@@ -3,12 +3,13 @@ import jwt from 'jsonwebtoken'
 import Login from '../interfaces/login'
 import User from '../interfaces/user'
 import { response, generatePolicy } from '../utils'
-import secret from '../config/index'
+import { secret } from '../config/index'
 import { DynamoDB } from 'aws-sdk'
 import { v4 as uuid } from 'uuid'
 import { CustomAuthorizerEvent } from 'aws-lambda'
 
 const db = new DynamoDB.DocumentClient()
+const userTable = process.env.USERS_TABLE || ''
 
 // @route   POST api/auth/login
 // @desc    Authenticate user
@@ -24,7 +25,7 @@ export const login = async (event: any) => {
   try {
     const { Items } = await db
       .scan({
-        TableName: process.env.USERS_TABLE,
+        TableName: userTable,
         FilterExpression: 'username = :username and password = :password',
         ExpressionAttributeValues: {
           ':username': username,
@@ -33,6 +34,10 @@ export const login = async (event: any) => {
         Limit: 1
       })
       .promise()
+
+    if (!Items || Items.length === 0) {
+      return response(400)
+    }
 
     const storedUser = Items[0]
 

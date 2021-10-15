@@ -1,10 +1,10 @@
-import jwt from 'jsonwebtoken'
 import Task from '../interfaces/task'
 import { response } from '../utils'
 import { DynamoDB } from 'aws-sdk'
 import { v4 as uuid } from 'uuid'
 
 const db = new DynamoDB.DocumentClient()
+const tasksTable = process.env.TASKS_TABLE || ''
 
 // @route   GET api/tasks
 // @desc    Get all tasks
@@ -13,7 +13,7 @@ export const getTasks = async () => {
   try {
     const { Items } = await db
       .scan({
-        TableName: process.env.TASKS_TABLE
+        TableName: tasksTable
       })
       .promise()
     return response(200, Items)
@@ -28,7 +28,7 @@ export const getTasks = async () => {
 export const createTask = async (event: any) => {
   try {
     const { body } = event
-    const { title, category, description, important, date } = JSON.parse(body)
+    const { title, category, description, important } = JSON.parse(body)
 
     if (!title || !category || !description || !important) {
       return response(400)
@@ -45,7 +45,7 @@ export const createTask = async (event: any) => {
 
     await db
       .put({
-        TableName: process.env.TASKS_TABLE,
+        TableName: tasksTable,
         Item: task
       })
       .promise()
@@ -64,7 +64,7 @@ export const deleteTask = async (event: any) => {
     const { id } = pathParameters
     await db
       .delete({
-        TableName: process.env.TASKS_TABLE,
+        TableName: tasksTable,
         Key: {
           id
         }
