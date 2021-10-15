@@ -27,7 +27,7 @@ export const getUsers = async () => {
 // @route   POST api/users
 // @desc    Create a user
 // @access  Public
-export const createUser = async (event) => {
+export const createUser = async (event: any) => {
   try {
     const { body } = event
     const { username, password, firstName, lastName, email } = JSON.parse(body)
@@ -102,7 +102,7 @@ export const createUser = async (event) => {
 // @route   DELETE api/users
 // @desc    Delete a user
 // @access  Private
-export const deleteUser = async (event) => {
+export const deleteUser = async (event: any) => {
   try {
     const { pathParameters } = event
     const { id } = pathParameters

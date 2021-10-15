@@ -25,7 +25,7 @@ export const getTasks = async () => {
 // @route   POST api/tasks
 // @desc    Create a task
 // @access  Private
-export const createTask = async (event) => {
+export const createTask = async (event: any) => {
   try {
     const { body } = event
     const { title, category, description, important, date } = JSON.parse(body)
@@ -58,7 +58,7 @@ export const createTask = async (event) => {
 // @route   DELETE api/tasks
 // @desc    Delete a task
 // @access  Private
-export const deleteTask = async (event) => {
+export const deleteTask = async (event: any) => {
   try {
     const { pathParameters } = event
     const { id } = pathParameters

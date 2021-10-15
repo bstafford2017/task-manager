@@ -6,14 +6,16 @@ import { response, generatePolicy } from '../utils'
 import secret from '../config/index'
 import { DynamoDB } from 'aws-sdk'
 import { v4 as uuid } from 'uuid'
+import { CustomAuthorizerEvent } from 'aws-lambda'
 
 const db = new DynamoDB.DocumentClient()
 
 // @route   POST api/auth/login
 // @desc    Authenticate user
 // @access  Public
-export const login = async (event) => {
-  const { username, password }: Login = event
+export const login = async (event: any) => {
+  const { body } = event
+  const { username, password }: Login = JSON.parse(event)
 
   if (!username || !password) {
     return response(400)
@@ -52,7 +54,7 @@ export const login = async (event) => {
   }
 }
 
-export const authenticate = async (event) => {
+export const authenticate = async (event: any) => {
   const { authorizationToken } = event
   if (!authorizationToken) {
     return response(401)
