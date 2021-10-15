@@ -30,7 +30,7 @@ export const createTask = async (event) => {
     const { body } = event
     const { title, category, description, important, date } = JSON.parse(body)
 
-    if (!title || !category || !description || !important || !date) {
+    if (!title || !category || !description || !important) {
       return response(400)
     }
 
@@ -40,8 +40,9 @@ export const createTask = async (event) => {
       category,
       description,
       important,
-      date
+      date: Date.now()
     }
+
     await db
       .put({
         TableName: process.env.TASKS_TABLE,

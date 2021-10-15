@@ -4,5 +4,5 @@ export default interface Task {
   category: string
   description: string
   important: boolean
-  date: Date
+  date: number
 }
