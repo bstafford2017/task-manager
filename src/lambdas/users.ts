@@ -1,7 +1,10 @@
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
+import User from '../interfaces/user'
+import secret from '../config/index'
 import { response } from '../utils'
 import { DynamoDB } from 'aws-sdk'
+import { v4 as uuid } from 'uuid'
 
 const db = new DynamoDB.DocumentClient()
 
@@ -23,18 +26,74 @@ export const getUsers = async () => {
 
 // @route   POST api/users
 // @desc    Create a user
-// @access  Private
-export const updateUser = async (event) => {
+// @access  Public
+export const createUser = async (event) => {
   try {
     const { body } = event
-    const user = JSON.parse(body)
+    const { username, password, firstName, lastName, email } = JSON.parse(body)
+
+    if (!username || !password || !firstName || !lastName || !email) {
+      return response(400)
+    }
+
+    // Check for unique username
+    const { Items: foundUsernames } = await db
+      .scan({
+        TableName: process.env.USERS_TABLE,
+        FilterExpression: 'username = :username',
+        ExpressionAttributeValues: {
+          ':username': username
+        },
+        Limit: 1
+      })
+      .promise()
+    if (foundUsernames.length > 0) {
+      return response(400, { message: 'Username already exists' })
+    }
+
+    // Check for unique email
+    const { Items: foundEmails } = await db
+      .scan({
+        TableName: process.env.USERS_TABLE,
+        FilterExpression: 'email = :email',
+        ExpressionAttributeValues: {
+          ':email': email
+        },
+        Limit: 1
+      })
+      .promise()
+    if (foundEmails.length > 0) {
+      return response(400, { message: 'Email already exists' })
+    }
+
+    const salt = await bcrypt.genSalt(10)
+    const hashedPassword = await bcrypt.hash(password, salt)
+
+    const user: User = {
+      id: uuid(),
+      username,
+      password: hashedPassword,
+      firstName,
+      lastName,
+      email,
+      admin: false,
+      createdOn: Date.now()
+    }
+
+    const token = await jwt.sign({ id: user.id }, secret, {
+      expiresIn: 3600
+    })
+
     await db
       .put({
         TableName: process.env.USERS_TABLE,
         Item: user
       })
       .promise()
-    return response(200, user)
+    return response(200, {
+      token,
+      user
+    })
   } catch (err) {
     return response(500)
   }

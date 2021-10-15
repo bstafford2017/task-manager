@@ -46,23 +46,6 @@ functions:
               - X-Amz-User-Agent
               - Access-Control-Allow-Origin
               - Access-Control-Allow-Credentials
-  register:
-    handler: src/lambdas/auth.register
-    events:
-      - http:
-          path: /api/auth/register
-          method: post
-          cors:
-            origin: '*'
-            headers:
-              - Content-Type
-              - X-Amz-Date
-              - Authorization
-              - X-Api-Key
-              - X-Amz-Security-Token
-              - X-Amz-User-Agent
-              - Access-Control-Allow-Origin
-              - Access-Control-Allow-Credentials
   getUsers:
     handler: src/lambdas/users.getUsers
     events:

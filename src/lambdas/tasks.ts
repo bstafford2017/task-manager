@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken'
 import Task from '../interfaces/task'
 import { response } from '../utils'
 import { DynamoDB } from 'aws-sdk'
-import { randomUUID } from 'crypto'
+import { v4 as uuid } from 'uuid'
 
 const db = new DynamoDB.DocumentClient()
 
@@ -28,10 +28,23 @@ export const getTasks = async () => {
 export const createTask = async (event) => {
   try {
     const { body } = event
-    const task = JSON.parse(body)
+    const { title, category, description, important, date } = JSON.parse(body)
+
+    if (!title || !category || !description || !important || !date) {
+      return response(400)
+    }
+
+    const task: Task = {
+      id: uuid(),
+      title,
+      category,
+      description,
+      important,
+      date
+    }
     await db
       .put({
-        TableName: process.env.USERS_TABLE,
+        TableName: process.env.TASKS_TABLE,
         Item: task
       })
       .promise()

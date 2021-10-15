@@ -2,29 +2,12 @@ import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import Login from '../interfaces/login'
 import User from '../interfaces/user'
-import { response } from '../utils'
+import { response, generatePolicy } from '../utils'
 import secret from '../config/index'
 import { DynamoDB } from 'aws-sdk'
-import { randomUUID } from 'crypto'
+import { v4 as uuid } from 'uuid'
 
 const db = new DynamoDB.DocumentClient()
-
-const generatePolicy = (principalId, effect, resource) => {
-  const authResponse: any = {}
-  authResponse.principalId = principalId
-  if (effect && resource) {
-    const policyDocument: any = {}
-    policyDocument.Version = '2012-10-17'
-    policyDocument.Statement = []
-    const statementOne: any = {}
-    statementOne.Action = 'execute-api:Invoke'
-    statementOne.Effect = effect
-    statementOne.Resource = resource
-    policyDocument.Statement[0] = statementOne
-    authResponse.policyDocument = policyDocument
-  }
-  return authResponse
-}
 
 // @route   POST api/auth/login
 // @desc    Authenticate user
@@ -63,70 +46,6 @@ export const login = async (event) => {
     return response(200, {
       token,
       user: storedUser
-    })
-  } catch (err) {
-    return response(500)
-  }
-}
-
-// @route   POST api/auth/register
-// @desc    Register a user
-// @access  Public
-export const register = async (event) => {
-  const { username, password, firstName, lastName, email }: User = event
-
-  try {
-    // Check for unique username
-    const { Items: foundUsernames } = await db
-      .scan({
-        TableName: process.env.USERS_TABLE,
-        FilterExpression: 'username = :username',
-        ExpressionAttributeValues: {
-          ':username': username
-        },
-        Limit: 1
-      })
-      .promise()
-    if (foundUsernames.length > 0) {
-      return response(400, { message: 'Username already exists' })
-    }
-
-    // Check for unique email
-    const { Items: foundEmails } = await db
-      .scan({
-        TableName: process.env.USERS_TABLE,
-        FilterExpression: 'username = :username',
-        ExpressionAttributeValues: {
-          ':username': username
-        },
-        Limit: 1
-      })
-      .promise()
-    if (foundEmails.length > 0) {
-      return response(400, { message: 'Email already exists' })
-    }
-
-    const salt = await bcrypt.genSalt(10)
-    const hashedPassword = await bcrypt.hash(password, salt)
-
-    const newUser: User = {
-      id: randomUUID(),
-      username,
-      password: hashedPassword,
-      firstName,
-      lastName,
-      email,
-      admin: false,
-      createdOn: Date.now()
-    }
-
-    const token = await jwt.sign({ id: newUser.id }, secret, {
-      expiresIn: 3600
-    })
-
-    return response(200, {
-      token,
-      user: newUser
     })
   } catch (err) {
     return response(500)
