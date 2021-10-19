@@ -1,12 +1,15 @@
-service: rcs-serverless
+service: task-manager
 
 custom:
   settings:
     USERS_TABLE: Users
     TASKS_TABLE: Tasks
+  webpack:
+    webpackConfig: ./webpack.config.js
 
 plugins:
   - serverless-offline
+  - serverless-webpack
 provider:
   name: aws
   runtime: nodejs12.x
@@ -23,14 +26,13 @@ provider:
         - dynamodb:DeleteItem
       Resource:
         - 'arn:aws:dynamodb:${self:provider.region}:*:table/${self:custom.settings.USERS_TABLE}'
-        - 'arn:aws:dynamodb:${self:provider.region}:*:table/${self:custom.settings.ROOMS_TABLE}'
-        - 'arn:aws:dynamodb:${self:provider.region}:*:table/${self:custom.settings.EVENTS_TABLE}'
+        - 'arn:aws:dynamodb:${self:provider.region}:*:table/${self:custom.settings.TASKS_TABLE}'
 
 functions:
   auth:
-    handler: src/lambdas/auth.authenticate
+    handler: dist/bundle.authenticate
   login:
-    handler: src/lambdas/auth.login
+    handler: dist/bundle.login
     events:
       - http:
           path: /api/auth/login
@@ -47,7 +49,7 @@ functions:
               - Access-Control-Allow-Origin
               - Access-Control-Allow-Credentials
   getUsers:
-    handler: src/lambdas/users.getUsers
+    handler: dist/bundle.getUsers
     events:
       - http:
           path: /api/users
@@ -65,7 +67,7 @@ functions:
               - Access-Control-Allow-Credentials
           authorizer: auth
   createUser:
-    handler: src/lambdas/users.createUser
+    handler: dist/bundle.createUser
     events:
       - http:
           path: /api/users
@@ -83,7 +85,7 @@ functions:
               - Access-Control-Allow-Credentials
           authorizer: auth
   deleteUser:
-    handler: src/lambdas/users.deleteUser
+    handler: dist/bundle.deleteUser
     events:
       - http:
           path: /api/users/{id}
@@ -101,7 +103,7 @@ functions:
               - Access-Control-Allow-Credentials
           authorizer: auth
   getTasks:
-    handler: src/lambdas/tasks.getTasks
+    handler: dist/bundle.getTasks
     events:
       - http:
           path: /api/tasks
@@ -119,7 +121,7 @@ functions:
               - Access-Control-Allow-Credentials
           authorizer: auth
   createTask:
-    handler: src/lambdas/tasks.createTask
+    handler: dist/bundle.createTask
     events:
       - http:
           path: /api/tasks
@@ -136,8 +138,8 @@ functions:
               - Access-Control-Allow-Origin
               - Access-Control-Allow-Credentials
           authorizer: auth
-  deleteUser:
-    handler: src/lambdas/tasks.deleteUser
+  deleteTask:
+    handler: dist/bundle.deleteTask
     events:
       - http:
           path: /api/tasks/{id}

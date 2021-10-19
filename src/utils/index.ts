@@ -3,7 +3,11 @@ export const response = (statusCode: number, body: any = {}) => ({
   body: JSON.stringify(body)
 })
 
-export const generatePolicy = (principalId, effect, resource) => {
+export const generatePolicy = (
+  principalId: any,
+  effect: any,
+  resource: any
+) => {
   const authResponse: any = {}
   authResponse.principalId = principalId
   if (effect && resource) {
