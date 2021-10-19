@@ -20,16 +20,21 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:5000/api/auth/login",
-					"protocol": "http",
+					"raw": "{{taskManagerURL}}/api/auth/login",
 					"host": [
-						"localhost"
+						"{{taskManagerURL}}"
 					],
-					"port": "5000",
 					"path": [
 						"api",
 						"auth",
 						"login"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": null,
+							"disabled": true
+						}
 					]
 				}
 			},
@@ -41,12 +46,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:5000/api/users",
-					"protocol": "http",
+					"raw": "{{taskManagerURL}}/api/users",
 					"host": [
-						"localhost"
+						"{{taskManagerURL}}"
 					],
-					"port": "5000",
 					"path": [
 						"api",
 						"users"
@@ -70,12 +73,10 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:5000/api/users",
-					"protocol": "http",
+					"raw": "{{taskManagerURL}}/api/users",
 					"host": [
-						"localhost"
+						"{{taskManagerURL}}"
 					],
-					"port": "5000",
 					"path": [
 						"api",
 						"users"
@@ -90,12 +91,10 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:5000/api/users/:id",
-					"protocol": "http",
+					"raw": "{{taskManagerURL}}/api/users/:id",
 					"host": [
-						"localhost"
+						"{{taskManagerURL}}"
 					],
-					"port": "5000",
 					"path": [
 						"api",
 						"users",
@@ -117,12 +116,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:5000/api/tasks",
-					"protocol": "http",
+					"raw": "{{taskManagerURL}}/api/tasks",
 					"host": [
-						"localhost"
+						"{{taskManagerURL}}"
 					],
-					"port": "5000",
 					"path": [
 						"api",
 						"tasks"
@@ -146,12 +143,10 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:5000/api/users",
-					"protocol": "http",
+					"raw": "{{taskManagerURL}}/api/users",
 					"host": [
-						"localhost"
+						"{{taskManagerURL}}"
 					],
-					"port": "5000",
 					"path": [
 						"api",
 						"users"
@@ -166,12 +161,10 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:5000/api/tasks/:id",
-					"protocol": "http",
+					"raw": "{{taskManagerURL}}/api/tasks/:id",
 					"host": [
-						"localhost"
+						"{{taskManagerURL}}"
 					],
-					"port": "5000",
 					"path": [
 						"api",
 						"tasks",
