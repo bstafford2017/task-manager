@@ -4,12 +4,14 @@ custom:
   settings:
     USERS_TABLE: Users
     TASKS_TABLE: Tasks
-  webpack:
-    webpackConfig: ./webpack.config.js
+
+package:
+  individually: true
+  excludeDevDependencies: true
 
 plugins:
   - serverless-offline
-  - serverless-webpack
+  - serverless-plugin-typescript
 provider:
   name: aws
   runtime: nodejs12.x
@@ -30,9 +32,9 @@ provider:
 
 functions:
   auth:
-    handler: dist/bundle.authenticate
+    handler: dist/lambdas/auth.authenticate
   login:
-    handler: dist/bundle.login
+    handler: dist/lambdas/auth.login
     events:
       - http:
           path: /api/auth/login
@@ -49,7 +51,7 @@ functions:
               - Access-Control-Allow-Origin
               - Access-Control-Allow-Credentials
   getUsers:
-    handler: dist/bundle.getUsers
+    handler: dist/lambdas/users.getUsers
     events:
       - http:
           path: /api/users
@@ -67,7 +69,7 @@ functions:
               - Access-Control-Allow-Credentials
           authorizer: auth
   createUser:
-    handler: dist/bundle.createUser
+    handler: dist/lambdas/users.createUser
     events:
       - http:
           path: /api/users
@@ -85,7 +87,7 @@ functions:
               - Access-Control-Allow-Credentials
           authorizer: auth
   deleteUser:
-    handler: dist/bundle.deleteUser
+    handler: dist/lambdas/users.deleteUser
     events:
       - http:
           path: /api/users/{id}
@@ -103,7 +105,7 @@ functions:
               - Access-Control-Allow-Credentials
           authorizer: auth
   getTasks:
-    handler: dist/bundle.getTasks
+    handler: dist/lambdas/tasks.getTasks
     events:
       - http:
           path: /api/tasks
@@ -121,7 +123,7 @@ functions:
               - Access-Control-Allow-Credentials
           authorizer: auth
   createTask:
-    handler: dist/bundle.createTask
+    handler: dist/lambdas/tasks.createTask
     events:
       - http:
           path: /api/tasks
@@ -139,7 +141,7 @@ functions:
               - Access-Control-Allow-Credentials
           authorizer: auth
   deleteTask:
-    handler: dist/bundle.deleteTask
+    handler: dist/lambdas/tasks.deleteTask
     events:
       - http:
           path: /api/tasks/{id}

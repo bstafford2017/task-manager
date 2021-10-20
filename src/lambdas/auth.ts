@@ -1,12 +1,9 @@
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import Login from '../interfaces/login'
-import User from '../interfaces/user'
 import { response, generatePolicy } from '../utils'
 import { secret } from '../config/index'
 import { DynamoDB } from 'aws-sdk'
-import { v4 as uuid } from 'uuid'
-import { CustomAuthorizerEvent } from 'aws-lambda'
 
 const db = new DynamoDB.DocumentClient()
 const userTable = process.env.USERS_TABLE || ''
