@@ -16,6 +16,7 @@ export const login = async (event: any) => {
   const { username, password }: Login = JSON.parse(body)
 
   if (!username || !password) {
+    console.log('Invalid request')
     return response(400)
   }
 
@@ -33,6 +34,7 @@ export const login = async (event: any) => {
       .promise()
 
     if (!Items || Items.length === 0) {
+      console.log('No users matched for username=%s', username)
       return response(400)
     }
 
@@ -40,6 +42,7 @@ export const login = async (event: any) => {
 
     const isMatch = await bcrypt.compare(password, storedUser.password)
     if (!isMatch) {
+      console.log('Password does not match')
       return response(401)
     }
 
@@ -52,6 +55,7 @@ export const login = async (event: any) => {
       user: storedUser
     })
   } catch (err) {
+    console.log('An error has occured error=%s', err)
     return response(500)
   }
 }
@@ -59,6 +63,7 @@ export const login = async (event: any) => {
 export const authenticate = async (event: any) => {
   const { authorizationToken } = event
   if (!authorizationToken) {
+    console.log('Invalid token')
     return response(401)
   }
 
@@ -68,6 +73,7 @@ export const authenticate = async (event: any) => {
     const decoded = jwt.verify(token, secret)
     return generatePolicy(token.sub, 'Allow', event.methodArn)
   } catch (err) {
+    console.log('An error has occured error=%s', err)
     return response(500)
   }
 }

@@ -18,6 +18,7 @@ export const getTasks = async () => {
       .promise()
     return response(200, Items)
   } catch (err) {
+    console.log('An error has occured error=%s', err)
     return response(500)
   }
 }
@@ -31,6 +32,7 @@ export const createTask = async (event: any) => {
     const { title, category, description, important } = JSON.parse(body)
 
     if (!title || !category || !description || !important) {
+      console.log('Invalid request')
       return response(400)
     }
 
@@ -51,6 +53,7 @@ export const createTask = async (event: any) => {
       .promise()
     return response(200, task)
   } catch (err) {
+    console.log('An error has occured error=%s', err)
     return response(500)
   }
 }
@@ -72,6 +75,7 @@ export const deleteTask = async (event: any) => {
       .promise()
     return response(200)
   } catch (err) {
+    console.log('An error has occured error=%s', err)
     return response(500)
   }
 }
