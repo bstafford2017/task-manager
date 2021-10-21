@@ -1,35 +1,43 @@
 {
-  "name": "task-manager",
-  "version": "1.0.0",
-  "description": "Management system for IT support tasks",
-  "scripts": {
-    "build": "npx webpack",
-    "client": "npm start --prefix client",
-    "client-install": "npm install --prefix client",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "sls": "sls offline start",
-    "deploy": "serverless deploy"
-  },
-  "author": "Benjamin Stafford",
-  "license": "MIT",
-  "dependencies": {
-    "aws-sdk": "^2.1008.0",
-    "bcryptjs": "^2.4.3",
-    "jsonwebtoken": "^8.5.1",
-    "react-toastify": "^6.0.8",
-    "uuid": "^3.3.2"
-  },
-  "devDependencies": {
-    "@types/aws-lambda": "^8.10.84",
-    "@types/bcryptjs": "^2.4.2",
-    "@types/jsonwebtoken": "^8.5.5",
-    "@types/node": "^16.11.0",
-    "@types/uuid": "^8.3.1",
-    "nodemon": "^2.0.4",
-    "serverless": "^2.64.1",
-    "serverless-offline": "^8.2.0",
-    "serverless-plugin-typescript": "^2.1.0",
-    "ts-loader": "^9.2.6",
-    "typescript": "^4.4.4"
-  }
+    "name": "task-manager",
+    "version": "0.1.0",
+    "private": true,
+    "dependencies": {
+        "@testing-library/jest-dom": "^4.2.4",
+        "@testing-library/react": "^9.5.0",
+        "@testing-library/user-event": "^7.2.1",
+        "axios": "^0.19.2",
+        "bootstrap": "^4.5.0",
+        "react": "^16.13.1",
+        "react-dom": "^16.13.1",
+        "react-redux": "^7.2.0",
+        "react-router-dom": "^5.2.0",
+        "react-scripts": "3.4.1",
+        "reactstrap": "^8.5.1",
+        "redux": "^4.0.5",
+        "redux-thunk": "^2.3.0"
+    },
+    "scripts": {
+        "start": "react-scripts start",
+        "build": "react-scripts build",
+        "test": "react-scripts test",
+        "eject": "react-scripts eject"
+    },
+    "eslintConfig": {
+        "extends": "react-app"
+    },
+    "browserslist": {
+        "production": [
+            ">0.2%",
+            "not dead",
+            "not op_mini all"
+        ],
+        "development": [
+            "last 1 chrome version",
+            "last 1 firefox version",
+            "last 1 safari version"
+        ]
+    },
+    "devDependencies": {},
+    "proxy": "http://127.0.0.1:5000/"
 }
