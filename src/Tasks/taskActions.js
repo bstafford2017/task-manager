@@ -60,7 +60,7 @@ export const addTask = (addTask) => async (dispatch, getState) => {
 
 export const updateTask = (task) => async (dispatch, getState) => {
   try {
-    await axios.post(`/api/tasks/${task._id}`, task, tokenConfig(getState))
+    await axios.post(`/api/tasks/${task.id}`, task, tokenConfig(getState))
     dispatch({
       type: UPDATE_TASK,
       payload: task

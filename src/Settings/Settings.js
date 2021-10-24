@@ -32,7 +32,7 @@ const Settings = ({
 }) => {
   const history = useHistory()
   const [user, setUser] = useState({
-    _id: '',
+    id: '',
     username: '',
     password: '',
     confirmPassword: '',
@@ -45,7 +45,7 @@ const Settings = ({
   useEffect(() => {
     if (Object.keys(loadedUser).length !== 0) {
       setUser({
-        _id: loadedUser._id,
+        id: loadedUser.id,
         username: loadedUser.username,
         password: loadedUser.password,
         confirmPassword: loadedUser.password,
@@ -58,7 +58,7 @@ const Settings = ({
   }, [loadedUser])
 
   const {
-    _id,
+    id,
     username,
     password,
     confirmPassword,
@@ -98,7 +98,7 @@ const Settings = ({
 
   const onDeleteUser = (e) => {
     toast.success('Deleted user!')
-    deleteUser(_id)
+    deleteUser(id)
     history.push(LOGIN_URL)
   }
 

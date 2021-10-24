@@ -28,7 +28,7 @@ export default function (state = initialState, action) {
       return {
         ...state,
         tasks: [
-          ...state.tasks.filter((e) => e._id !== action.payload._id),
+          ...state.tasks.filter((e) => e.id !== action.payload.id),
           action.payload
         ].sort((a, b) => {
           return b.date - a.date
@@ -37,7 +37,7 @@ export default function (state = initialState, action) {
     case DELETE_TASK:
       return {
         ...state,
-        tasks: state.tasks.filter((task) => task._id !== action.payload)
+        tasks: state.tasks.filter((task) => task.id !== action.payload)
       }
     case TASKS_LOADING:
       return {

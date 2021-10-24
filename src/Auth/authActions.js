@@ -21,13 +21,9 @@ export const tokenConfig = (getState) => {
   // Headers
   const config = {
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + token
     }
-  }
-
-  // If token, add to headers
-  if (token) {
-    config.headers['x-auth-token'] = token
   }
 
   return config
@@ -70,7 +66,7 @@ export const register = (user) => async (dispatch) => {
 export const updateUser = (updatedUser) => async (dispatch, getState) => {
   try {
     await axios.post(
-      `/api/auth/${updatedUser._id}`,
+      `/api/auth/${updatedUser.id}`,
       updatedUser,
       tokenConfig(getState)
     )

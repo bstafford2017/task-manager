@@ -28,7 +28,7 @@ const TaskList = ({ getTasks, tasks, ...props }) => {
         </thead>
         <tbody style={{ textAlign: 'center' }}>
           {tasks.map((task) => (
-            <Task key={task._id} task={task} />
+            <Task key={task.id} task={task} />
           ))}
         </tbody>
       </Table>

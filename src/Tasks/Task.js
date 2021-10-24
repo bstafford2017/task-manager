@@ -19,12 +19,12 @@ const Task = (props) => {
   }
 
   const onDelete = (e) => {
-    toast.success(`Deleted task ${task._id}`)
-    props.deleteTask(task._id)
+    toast.success(`Deleted task ${task.id}`)
+    props.deleteTask(task.id)
   }
 
   const onUpdate = (e) => {
-    toast.success(`Updated task ${task._id}`)
+    toast.success(`Updated task ${task.id}`)
     props.updateTask(task)
   }
 
@@ -35,7 +35,7 @@ const Task = (props) => {
 
   return toggleEdit ? (
     <tr>
-      <td>{props.task._id}</td>
+      <td>{props.task.id}</td>
       <td>
         <Input id='title' type='text' value={task.title} onChange={onChange} />
       </td>
@@ -77,7 +77,7 @@ const Task = (props) => {
     </tr>
   ) : (
     <tr>
-      <td>{props.task._id}</td>
+      <td>{props.task.id}</td>
       <td>{props.task.title}</td>
       <td>{props.task.category}</td>
       <td>{props.task.important ? 'Yes' : 'No'}</td>
