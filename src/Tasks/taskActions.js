@@ -6,7 +6,7 @@ import {
   AUTH_ERROR,
   UPDATE_TASK
 } from '../Actions'
-import axios from 'axios'
+import axios from '../Http/index'
 import { tokenConfig } from '../Auth/authActions'
 import { setErrors } from '../Error/errorActions'
 

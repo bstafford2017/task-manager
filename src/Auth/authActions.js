@@ -11,7 +11,7 @@ import {
   LOGIN_ERROR
 } from '../Actions'
 import { setErrors } from '../Error/errorActions'
-import axios from 'axios'
+import axios from '../Http/index'
 
 // Setup config/headers and token
 export const tokenConfig = (getState) => {
