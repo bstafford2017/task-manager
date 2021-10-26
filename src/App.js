@@ -39,6 +39,8 @@ const App = ({ isLoading, ...props }) => {
     loadUser()
   }, [])
 
+  console.log(process.env.REACT_APP_ENVIRONMENT)
+
   return (
     <Router>
       <ToastContainer />

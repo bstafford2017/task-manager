@@ -3,6 +3,8 @@
 # Serverless AWS template
 .serverless
 
+.env
+
 # dependencies
 /node_modules
 /client/node_modules

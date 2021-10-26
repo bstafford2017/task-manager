@@ -12,7 +12,7 @@ import {
 } from '../Actions'
 
 const initialState = {
-  token: localStorage.getItem('token'),
+  token: null,
   isAuthenticated: false,
   isLoading: false,
   user: {}
@@ -30,7 +30,8 @@ export default function (state = initialState, action) {
         ...state,
         isAuthenticated: true,
         isLoading: false,
-        user: action.payload
+        user: action.payload.user,
+        token: action.payload.token
       }
     case REGISTER_SUCCESS:
     case LOGIN_SUCCESS:

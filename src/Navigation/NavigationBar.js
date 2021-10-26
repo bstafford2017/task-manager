@@ -19,9 +19,14 @@ import {
   TASKLIST_URL,
   SETTINGS_URL
 } from '../Routes'
-import hasToken from '../Utils'
 
-const NavigationBar = ({ isAuthenticated, isLoading, logout, ...props }) => {
+const NavigationBar = ({
+  isAuthenticated,
+  isLoading,
+  token,
+  logout,
+  ...props
+}) => {
   const history = useHistory()
   const [isOpen, setIsOpen] = useState(false)
 
@@ -34,12 +39,12 @@ const NavigationBar = ({ isAuthenticated, isLoading, logout, ...props }) => {
 
   return isLoading ? null : (
     <Navbar color='success' dark expand='sm'>
-      <NavbarBrand href={hasToken() ? HOME_URL : LOGIN_URL}>
+      <NavbarBrand href={token ? HOME_URL : LOGIN_URL}>
         Task Manager
       </NavbarBrand>
       <NavbarToggler onClick={toggle} />
       <Collapse isOpen={isOpen} navbar>
-        {hasToken() ? (
+        {token ? (
           <>
             <Nav navbar>
               <NavItem>
@@ -94,7 +99,8 @@ NavigationBar.propTypes = {
 const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
   isLoading: state.auth.isLoading,
-  logout: state.auth.logout
+  logout: state.auth.logout,
+  token: state.auth.token
 })
 
 const mapDispatchToProps = {

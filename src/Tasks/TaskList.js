@@ -4,34 +4,29 @@ import { Table, Container } from 'reactstrap'
 import { connect } from 'react-redux'
 import Task from './Task'
 import { getTasks } from '../Tasks/taskActions'
+import { Spinner } from 'reactstrap'
 
-const TaskList = ({ getTasks, tasks, ...props }) => {
+const TaskList = ({ getTasks, loading, tasks, ...props }) => {
+  const spinnerStyles = {
+    width: '5rem',
+    height: '5rem',
+    position: 'absolute',
+    left: '50%',
+    top: '50%'
+  }
+
   useEffect(() => {
     getTasks()
   }, [getTasks])
 
+  if (loading) return <Spinner color='success' style={spinnerStyles} />
+
   return (
     <Container fluid>
       <h2 style={{ textAlign: 'center' }}>Task List</h2>
-      <Table dark>
-        <thead>
-          <tr style={{ textAlign: 'center' }}>
-            <th>ID</th>
-            <th>Title</th>
-            <th>Category</th>
-            <th>Important</th>
-            <th>Date</th>
-            <th>Time</th>
-            <th></th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody style={{ textAlign: 'center' }}>
-          {tasks.map((task) => (
-            <Task key={task.id} task={task} />
-          ))}
-        </tbody>
-      </Table>
+      {tasks.map((task) => (
+        <Task key={task.id} task={task} />
+      ))}
     </Container>
   )
 }
@@ -46,7 +41,8 @@ TaskList.propTypes = {
 const mapStateToProps = (state) => ({
   tasks: state.tasks.tasks,
   isAdmin: state.auth.user.admin,
-  isAuthenticated: state.auth.isAuthenticated
+  isAuthenticated: state.auth.isAuthenticated,
+  loading: state.tasks.loading
 })
 
 const mapDispatchToProps = {

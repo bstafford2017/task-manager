@@ -3,14 +3,19 @@ import { connect } from 'react-redux'
 import { Route, Redirect } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { LOGIN_URL } from '.'
-import hasToken from '../Utils'
 
-const AuthRoute = ({ loadUser, isLoading, component: Component, ...rest }) => {
+const AuthRoute = ({
+  loadUser,
+  isLoading,
+  token,
+  component: Component,
+  ...rest
+}) => {
   return (
     <Route
       {...rest}
       render={(props) =>
-        isLoading ? null : hasToken() ? (
+        isLoading ? null : token ? (
           <Component {...props} />
         ) : (
           <Redirect to={LOGIN_URL} />
@@ -26,7 +31,8 @@ AuthRoute.propTypes = {
 }
 
 const mapStateToProps = (state) => ({
-  isLoading: state.auth.isLoading
+  isLoading: state.auth.isLoading,
+  token: state.auth.token
 })
 
 export default connect(mapStateToProps)(AuthRoute)
