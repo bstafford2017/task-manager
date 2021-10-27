@@ -2,12 +2,14 @@ import React, { useState } from 'react'
 import {
   Card,
   CardBody,
+  CardFooter,
   CardHeader,
   Col,
   Form,
   FormGroup,
   Input,
-  Label
+  Label,
+  Row
 } from 'reactstrap'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
@@ -18,9 +20,22 @@ import { toast } from 'react-toastify'
 const Task = (props) => {
   const [toggleEdit, setToggleEdit] = useState(false)
   const [task, setTask] = useState(props.task)
+  const [comments] = useState([
+    {
+      username: 'testydev',
+      text: "This is a simple comment for example. Here is what happens if this comment is super duper long. I don't know what will happen in this case but oh well",
+      createdOn: new Date()
+    }
+  ])
+  const [comment, setComment] = useState('')
 
   const bold = {
     fontWeight: 'bold'
+  }
+
+  const noPadding = {
+    paddingLeft: 0,
+    paddingRight: 0
   }
 
   const onToggle = (e) => {
@@ -42,8 +57,20 @@ const Task = (props) => {
 
   const onChange = (e) => setTask({ ...task, [e.target.id]: e.target.value })
 
+  const onChangeComment = (e) => setComment(e.target.value)
+
+  const submitComment = (e) => {
+    e.preventDefault()
+    comments.push({
+      username: props.username,
+      text: comment,
+      createdOn: new Date()
+    })
+    setComment('')
+  }
+
   return (
-    <Col sm={12} md={6} xl={3}>
+    <Col sm={12} md={6}>
       <Card style={{ maxWidth: '450px', margin: '15px' }}>
         <CardHeader>
           <h3 style={{ display: 'inline' }}>{task.title}</h3>
@@ -65,90 +92,66 @@ const Task = (props) => {
           </Button>
         </CardHeader>
         <CardBody>
-          <Form>
+          <Form style={{ margin: '15px' }}>
             <FormGroup row>
-              <Col sm={4}>
-                <Label style={bold}>ID: </Label>
-              </Col>
-              <Col sm={8}>
-                <Label>{task.id}</Label>
-              </Col>
+              <Label style={bold}>ID: </Label>
+              <Label>{task.id}</Label>
             </FormGroup>
             <FormGroup row>
-              <Col sm={4}>
-                <Label style={bold}>Title: </Label>
-              </Col>
-              <Col sm={8}>
-                {toggleEdit ? (
-                  <Input
-                    id='title'
-                    type='text'
-                    value={task.title}
-                    onChange={onChange}
-                  />
-                ) : (
-                  <Label>{task.title}</Label>
-                )}
-              </Col>
+              <Label style={bold}>Title: </Label>
+              {toggleEdit ? (
+                <Input
+                  id='title'
+                  type='text'
+                  value={task.title}
+                  onChange={onChange}
+                />
+              ) : (
+                <Label>{task.title}</Label>
+              )}
             </FormGroup>
             <FormGroup row>
-              <Col sm={4}>
-                <Label style={bold}>Category: </Label>
-              </Col>
-              <Col sm={8}>
-                {toggleEdit ? (
-                  <Input
-                    id='category'
-                    type='text'
-                    value={task.category}
-                    onChange={onChange}
-                  />
-                ) : (
-                  <Label>{task.category}</Label>
-                )}
-              </Col>
+              <Label style={bold}>Category: </Label>
+              {toggleEdit ? (
+                <Input
+                  id='category'
+                  type='text'
+                  value={task.category}
+                  onChange={onChange}
+                />
+              ) : (
+                <Label>{task.category}</Label>
+              )}
             </FormGroup>
             <FormGroup row>
-              <Col sm={4}>
-                <Label style={bold}>Description: </Label>
-              </Col>
-              <Col sm={8}>
-                {toggleEdit ? (
-                  <Input
-                    id='description'
-                    type='text'
-                    value={task.description}
-                    onChange={onChange}
-                  />
-                ) : (
-                  <Label>{task.description}</Label>
-                )}
-              </Col>
+              <Label style={bold}>Description: </Label>
+              {toggleEdit ? (
+                <Input
+                  id='description'
+                  type='text'
+                  value={task.description}
+                  onChange={onChange}
+                />
+              ) : (
+                <Label>{task.description}</Label>
+              )}
             </FormGroup>
             <FormGroup row>
-              <Col sm={4}>
-                <Label style={bold}>Created on: </Label>
-              </Col>
-              <Col sm={8}>
-                <Label>{new Date(task.date).toUTCString()}</Label>
-              </Col>
+              <Label style={bold}>Created on: </Label>
+              <Label>{new Date(task.date).toLocaleString()}</Label>
             </FormGroup>
             <FormGroup row>
-              <Col sm={4}>
-                <Label style={bold}>Important: </Label>
-              </Col>
-              <Col sm={8}>
-                {toggleEdit ? (
-                  <Input
-                    id='important'
-                    type='checkbox'
-                    value={task.important}
-                    onChange={onChange}
-                  />
-                ) : (
-                  <Label>{task.important ? 'Yes' : 'No'}</Label>
-                )}
-              </Col>
+              <Label style={bold}>Important: </Label>
+              {toggleEdit ? (
+                <Input
+                  id='important'
+                  type='checkbox'
+                  value={task.important}
+                  onChange={onChange}
+                />
+              ) : (
+                <Label>{task.important ? 'Yes' : 'No'}</Label>
+              )}
             </FormGroup>
           </Form>
           <Button
@@ -160,6 +163,31 @@ const Task = (props) => {
             Edit
           </Button>
         </CardBody>
+        {comments.map((c) => (
+          <CardFooter>
+            <Row>
+              <Col sm={3}>
+                <Label style={bold}>{c.username}</Label>
+              </Col>
+              <Col sm={9}>
+                <Label style={{ color: '#222' }}>{c.text}</Label>
+              </Col>
+            </Row>
+            <Label style={{ fontStyle: 'italic', color: 'grey' }}>
+              Posted on {c.createdOn.toLocaleString()}
+            </Label>
+          </CardFooter>
+        ))}
+        <CardFooter>
+          <Row>
+            <Col sm={9} style={noPadding}>
+              <Input type='text' value={comment} onChange={onChangeComment} />
+            </Col>
+            <Col sm={3} style={noPadding}>
+              <Button onClick={submitComment}>Comment</Button>
+            </Col>
+          </Row>
+        </CardFooter>
       </Card>
     </Col>
   )
@@ -173,7 +201,8 @@ Task.propTypes = {
 }
 
 const mapStateToProps = (state) => ({
-  isAdmin: state.auth.user.admin
+  isAdmin: state.auth.user.admin,
+  username: state.auth.user.username
 })
 
 const mapDispatchToProps = {
