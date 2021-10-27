@@ -43,7 +43,7 @@ const Task = (props) => {
   const onChange = (e) => setTask({ ...task, [e.target.id]: e.target.value })
 
   return (
-    <Col md={4}>
+    <Col sm={12} md={6} xl={3}>
       <Card style={{ maxWidth: '450px', margin: '15px' }}>
         <CardHeader>
           <h3 style={{ display: 'inline' }}>{task.title}</h3>
@@ -67,17 +67,17 @@ const Task = (props) => {
         <CardBody>
           <Form>
             <FormGroup row>
-              <Label sm={4} style={bold}>
-                ID:{' '}
-              </Label>
+              <Col sm={4}>
+                <Label style={bold}>ID: </Label>
+              </Col>
               <Col sm={8}>
                 <Label>{task.id}</Label>
               </Col>
             </FormGroup>
             <FormGroup row>
-              <Label sm={4} style={bold}>
-                Title:{' '}
-              </Label>
+              <Col sm={4}>
+                <Label style={bold}>Title: </Label>
+              </Col>
               <Col sm={8}>
                 {toggleEdit ? (
                   <Input
@@ -92,9 +92,9 @@ const Task = (props) => {
               </Col>
             </FormGroup>
             <FormGroup row>
-              <Label sm={4} style={bold}>
-                Category:{' '}
-              </Label>
+              <Col sm={4}>
+                <Label style={bold}>Category: </Label>
+              </Col>
               <Col sm={8}>
                 {toggleEdit ? (
                   <Input
@@ -109,17 +109,34 @@ const Task = (props) => {
               </Col>
             </FormGroup>
             <FormGroup row>
-              <Label sm={4} style={bold}>
-                Created on:{' '}
-              </Label>
+              <Col sm={4}>
+                <Label style={bold}>Description: </Label>
+              </Col>
+              <Col sm={8}>
+                {toggleEdit ? (
+                  <Input
+                    id='description'
+                    type='text'
+                    value={task.description}
+                    onChange={onChange}
+                  />
+                ) : (
+                  <Label>{task.description}</Label>
+                )}
+              </Col>
+            </FormGroup>
+            <FormGroup row>
+              <Col sm={4}>
+                <Label style={bold}>Created on: </Label>
+              </Col>
               <Col sm={8}>
                 <Label>{new Date(task.date).toUTCString()}</Label>
               </Col>
             </FormGroup>
             <FormGroup row>
-              <Label sm={4} style={bold}>
-                Important:{' '}
-              </Label>
+              <Col sm={4}>
+                <Label style={bold}>Important: </Label>
+              </Col>
               <Col sm={8}>
                 {toggleEdit ? (
                   <Input

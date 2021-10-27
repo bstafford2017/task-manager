@@ -16,7 +16,7 @@ const TaskList = ({ getTasks, loading, tasks, ...props }) => {
   }
 
   useEffect(() => {
-    if (tasks.length === 0) getTasks()
+    getTasks()
   }, [getTasks])
 
   if (loading) return <Spinner color='success' style={spinnerStyles} />
@@ -24,7 +24,7 @@ const TaskList = ({ getTasks, loading, tasks, ...props }) => {
   return (
     <Container fluid>
       <h2 style={{ textAlign: 'center' }}>Task List</h2>
-      <Row xs='1' md='2'>
+      <Row>
         {tasks.map((task) => (
           <Task key={task.id} task={task} />
         ))}
