@@ -16,7 +16,7 @@ const TaskList = ({ getTasks, loading, tasks, ...props }) => {
   }
 
   useEffect(() => {
-    getTasks()
+    if (tasks.length === 0) getTasks()
   }, [getTasks])
 
   if (loading) return <Spinner color='success' style={spinnerStyles} />
