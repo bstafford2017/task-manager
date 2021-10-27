@@ -80,7 +80,7 @@ const Login = ({ login, setErrors, clearErrors, error, ...props }) => {
               </Form>
               <FormText color='muted'>
                 Do not have an account?{' '}
-                <Link to='/register' className='text-success'>
+                <Link to='/register' className='text-success' tabIndex='-1'>
                   Register today!
                 </Link>
               </FormText>

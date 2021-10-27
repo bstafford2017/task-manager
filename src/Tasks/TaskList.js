@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { Table, Container } from 'reactstrap'
+import { Container, Row } from 'reactstrap'
 import { connect } from 'react-redux'
 import Task from './Task'
 import { getTasks } from '../Tasks/taskActions'
@@ -24,9 +24,11 @@ const TaskList = ({ getTasks, loading, tasks, ...props }) => {
   return (
     <Container fluid>
       <h2 style={{ textAlign: 'center' }}>Task List</h2>
-      {tasks.map((task) => (
-        <Task key={task.id} task={task} />
-      ))}
+      <Row xs='1' md='2'>
+        {tasks.map((task) => (
+          <Task key={task.id} task={task} />
+        ))}
+      </Row>
     </Container>
   )
 }

@@ -7,13 +7,11 @@ import {
   Form,
   FormGroup,
   Input,
-  Label,
-  Row
+  Label
 } from 'reactstrap'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Button } from 'reactstrap'
-import categories from '../Categories'
 import { deleteTask, updateTask } from './taskActions'
 import { toast } from 'react-toastify'
 
@@ -42,135 +40,112 @@ const Task = (props) => {
     // props.updateTask(task)
   }
 
-  const onChangeImportant = (e) =>
-    setTask({ ...task, [e.target.id]: e.target.value === 'Yes' ? true : false })
-
   const onChange = (e) => setTask({ ...task, [e.target.id]: e.target.value })
 
   return (
-    <Card>
-      <CardHeader tag='h3'>{task.title}</CardHeader>
-      <CardBody>
-        <Form>
-          <FormGroup row>
-            <Label sm={2} style={bold}>
-              ID:{' '}
-            </Label>
-            <Col sm={10}>
-              <Label>{task.id}</Label>
-            </Col>
-          </FormGroup>
-          <FormGroup row>
-            <Label sm={2} style={bold}>
-              Title:{' '}
-            </Label>
-            <Col sm={10}>
-              {toggleEdit ? (
-                <Input type='text' value={task.title} />
-              ) : (
-                <Label>{task.title}</Label>
-              )}
-            </Col>
-          </FormGroup>
-          <FormGroup row>
-            <Label sm={2} style={bold}>
-              Category:{' '}
-            </Label>
-            <Col sm={10}>
-              {toggleEdit ? (
-                <Input type='text' value={task.category} />
-              ) : (
-                <Label>{task.category}</Label>
-              )}
-            </Col>
-          </FormGroup>
-          <FormGroup row>
-            <Label sm={2} style={bold}>
-              Created on:{' '}
-            </Label>
-            <Col sm={10}>
-              <Label>{new Date(task.date).toUTCString()}</Label>
-            </Col>
-          </FormGroup>
-        </Form>
-        <Button style={{ float: 'right' }} onClick={onToggle}>
-          Edit
-        </Button>
-      </CardBody>
-    </Card>
+    <Col md={4}>
+      <Card style={{ maxWidth: '450px', margin: '15px' }}>
+        <CardHeader>
+          <h3 style={{ display: 'inline' }}>{task.title}</h3>
+          <Button
+            style={{
+              borderWidth: 1,
+              borderColor: 'rgb(255,0,0)',
+              alignItems: 'center',
+              justifyContent: 'center',
+              width: 38,
+              height: 38,
+              backgroundColor: 'rgb(255,0,0)',
+              borderRadius: 50,
+              float: 'right'
+            }}
+            onClick={onDelete}
+          >
+            x
+          </Button>
+        </CardHeader>
+        <CardBody>
+          <Form>
+            <FormGroup row>
+              <Label sm={4} style={bold}>
+                ID:{' '}
+              </Label>
+              <Col sm={8}>
+                <Label>{task.id}</Label>
+              </Col>
+            </FormGroup>
+            <FormGroup row>
+              <Label sm={4} style={bold}>
+                Title:{' '}
+              </Label>
+              <Col sm={8}>
+                {toggleEdit ? (
+                  <Input
+                    id='title'
+                    type='text'
+                    value={task.title}
+                    onChange={onChange}
+                  />
+                ) : (
+                  <Label>{task.title}</Label>
+                )}
+              </Col>
+            </FormGroup>
+            <FormGroup row>
+              <Label sm={4} style={bold}>
+                Category:{' '}
+              </Label>
+              <Col sm={8}>
+                {toggleEdit ? (
+                  <Input
+                    id='category'
+                    type='text'
+                    value={task.category}
+                    onChange={onChange}
+                  />
+                ) : (
+                  <Label>{task.category}</Label>
+                )}
+              </Col>
+            </FormGroup>
+            <FormGroup row>
+              <Label sm={4} style={bold}>
+                Created on:{' '}
+              </Label>
+              <Col sm={8}>
+                <Label>{new Date(task.date).toUTCString()}</Label>
+              </Col>
+            </FormGroup>
+            <FormGroup row>
+              <Label sm={4} style={bold}>
+                Important:{' '}
+              </Label>
+              <Col sm={8}>
+                {toggleEdit ? (
+                  <Input
+                    id='important'
+                    type='checkbox'
+                    value={task.important}
+                    onChange={onChange}
+                  />
+                ) : (
+                  <Label>{task.important ? 'Yes' : 'No'}</Label>
+                )}
+              </Col>
+            </FormGroup>
+          </Form>
+          <Button
+            sm={3}
+            onClick={onToggle}
+            style={{ float: 'right' }}
+            color='success'
+          >
+            Edit
+          </Button>
+        </CardBody>
+      </Card>
+    </Col>
   )
-
-  // return toggleEdit ? (
-  //   <tr>
-  //     <td>{props.task.id}</td>
-  //     <td>
-  //       <Input id='title' type='text' value={task.title} onChange={onChange} />
-  //     </td>
-  //     <td>
-  //       <Input id='category' type='select' onChange={onChange}>
-  //         <option defaultValue>{task.category}</option>
-  //         {categories.map((e) => {
-  //           return <option value={e}>{e}</option>
-  //         })}
-  //       </Input>
-  //     </td>
-  //     <td>
-  //       <Input id='important' type='select' onChange={onChangeImportant}>
-  //         <option defaultValue>{task.important ? 'Yes' : 'No'}</option>
-  //         <option>{task.important ? 'No' : 'Yes'}</option>
-  //       </Input>
-  //     </td>
-  //     <td>{new Date(task.date).toLocaleDateString()}</td>
-  //     <td>{new Date(task.date).toLocaleTimeString()}</td>
-  //     {props.isAdmin ? (
-  //       <>
-  //         <td>
-  //           <Button
-  //             outline={toggleEdit ? false : true}
-  //             color={toggleEdit ? 'success' : 'secondary'}
-  //             size='sm'
-  //             onClick={onToggle}
-  //           >
-  //             {toggleEdit ? 'Done' : 'Edit'}
-  //           </Button>
-  //         </td>
-  //         <td>
-  //           <Button color='danger' size='sm' onClick={onDelete}>
-  //             &times;
-  //           </Button>
-  //         </td>
-  //       </>
-  //     ) : null}
-  //   </tr>
-  // ) : (
-  //   <tr>
-  //     <td>{props.task.id}</td>
-  //     <td>{props.task.title}</td>
-  //     <td>{props.task.category}</td>
-  //     <td>{props.task.important ? 'Yes' : 'No'}</td>
-  //     <td>{new Date(props.task.date).toLocaleDateString()}</td>
-  //     <td>{new Date(props.task.date).toLocaleTimeString()}</td>
-  //     {props.isAdmin ? (
-  //       <>
-  //         <td>
-  //           <Button
-  //             outline={toggleEdit ? true : null}
-  //             color='success'
-  //             size='sm'
-  //             onClick={onToggle}
-  //           >
-  //             {toggleEdit ? 'Done' : 'Edit'}
-  //           </Button>
-  //         </td>
-  //         <td>
-  //           <Button color='danger' size='sm' onClick={onDelete}>
-  //             &times;
-  //           </Button>
-  //         </td>
-  //       </>
-  //     ) : null}
-  //   </tr>
-  // )
 }
 
 Task.propTypes = {

@@ -33,14 +33,8 @@ const Register = ({ register, error, setErrors, clearErrors, ...props }) => {
     email: ''
   })
 
-  const {
-    username,
-    password,
-    confirmPassword,
-    firstName,
-    lastName,
-    email
-  } = user
+  const { username, password, confirmPassword, firstName, lastName, email } =
+    user
 
   const onChange = (e) => {
     setUser({
@@ -158,7 +152,7 @@ const Register = ({ register, error, setErrors, clearErrors, ...props }) => {
               </Form>
               <FormText color='muted'>
                 Have an account?{' '}
-                <Link to='/' className='text-success'>
+                <Link to='/' className='text-success' tabIndex='-1'>
                   Login here!
                 </Link>
               </FormText>
