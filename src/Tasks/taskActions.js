@@ -20,13 +20,7 @@ export const getTasks = () => async (dispatch, getState) => {
     })
   } catch (err) {
     alert(err)
-    dispatch(
-      setErrors(
-        err.response.data,
-        err.response.status,
-        'System Error: Failed to get tasks.'
-      )
-    )
+    dispatch(setErrors('', '', 'System Error: Failed to get tasks.'))
     dispatch({
       type: AUTH_ERROR
     })
@@ -97,6 +91,20 @@ export const deleteTask = (id) => async (dispatch, getState) => {
     dispatch({
       type: AUTH_ERROR
     })
+  }
+}
+
+export const addComment = (taskId, comment) => async (dispatch, getState) => {
+  try {
+    await axios.post(`/api/comments/${taskId}`, comment, tokenConfig(getState))
+  } catch (err) {
+    dispatch(
+      setErrors(
+        err.response.data,
+        err.response.status,
+        'System Error: Failed to add comment.'
+      )
+    )
   }
 }
 

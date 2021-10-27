@@ -14,19 +14,13 @@ import {
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Button } from 'reactstrap'
-import { deleteTask, updateTask } from './taskActions'
+import { addComment, deleteTask, updateTask } from './taskActions'
 import { toast } from 'react-toastify'
 
 const Task = (props) => {
   const [toggleEdit, setToggleEdit] = useState(false)
   const [task, setTask] = useState(props.task)
-  const [comments] = useState([
-    {
-      username: 'testydev',
-      text: "This is a simple comment for example. Here is what happens if this comment is super duper long. I don't know what will happen in this case but oh well",
-      createdOn: new Date()
-    }
-  ])
+  const [comments] = useState(props.task.comments)
   const [comment, setComment] = useState('')
 
   const bold = {
@@ -59,10 +53,14 @@ const Task = (props) => {
 
   const onChangeComment = (e) => setComment(e.target.value)
 
-  const submitComment = (e) => {
+  const submitComment = async (e) => {
     e.preventDefault()
+    await props.addComment(task.id, {
+      user: props.username,
+      text: comment
+    })
     comments.push({
-      username: props.username,
+      user: props.username,
       text: comment,
       createdOn: new Date()
     })
@@ -167,14 +165,14 @@ const Task = (props) => {
           <CardFooter>
             <Row>
               <Col sm={3}>
-                <Label style={bold}>{c.username}</Label>
+                <Label style={bold}>{c.user}</Label>
               </Col>
               <Col sm={9}>
                 <Label style={{ color: '#222' }}>{c.text}</Label>
               </Col>
             </Row>
             <Label style={{ fontStyle: 'italic', color: 'grey' }}>
-              Posted on {c.createdOn.toLocaleString()}
+              Posted on {new Date(c.createdOn).toLocaleString()}
             </Label>
           </CardFooter>
         ))}
@@ -207,7 +205,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = {
   deleteTask,
-  updateTask
+  updateTask,
+  addComment
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Task)
