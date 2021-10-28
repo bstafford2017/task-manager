@@ -22,6 +22,7 @@ const Task = (props) => {
   const [task, setTask] = useState(props.task)
   const [comments] = useState(props.task.comments)
   const [comment, setComment] = useState('')
+  const [hideComments, setHideComments] = useState(true)
 
   const bold = {
     fontWeight: 'bold'
@@ -69,7 +70,7 @@ const Task = (props) => {
 
   return (
     <Col sm={12} md={6}>
-      <Card style={{ maxWidth: '450px', margin: '15px' }}>
+      <Card>
         <CardHeader>
           <h3 style={{ display: 'inline' }}>{task.title}</h3>
           <Button
@@ -161,21 +162,50 @@ const Task = (props) => {
             Edit
           </Button>
         </CardBody>
-        {comments.map((c) => (
+        {!hideComments &&
+          comments.map((c) => (
+            <CardFooter>
+              <Row>
+                <Col sm={3}>
+                  <Label style={bold}>{c.user}</Label>
+                </Col>
+                <Col sm={9}>
+                  <Label style={{ color: '#222' }}>{c.text}</Label>
+                </Col>
+              </Row>
+              <Label style={{ fontStyle: 'italic', color: 'grey' }}>
+                Posted on {new Date(c.createdOn).toLocaleString()}
+              </Label>
+            </CardFooter>
+          ))}
+        {hideComments && comments.length > 0 && (
           <CardFooter>
-            <Row>
-              <Col sm={3}>
-                <Label style={bold}>{c.user}</Label>
-              </Col>
-              <Col sm={9}>
-                <Label style={{ color: '#222' }}>{c.text}</Label>
-              </Col>
-            </Row>
-            <Label style={{ fontStyle: 'italic', color: 'grey' }}>
-              Posted on {new Date(c.createdOn).toLocaleString()}
+            <Label
+              style={{
+                cursor: 'pointer',
+                color: 'blue',
+                textDecoration: 'underline'
+              }}
+              onClick={(e) => setHideComments(false)}
+            >
+              Show Comments
             </Label>
           </CardFooter>
-        ))}
+        )}
+        {!hideComments && comments.length > 0 && (
+          <CardFooter>
+            <Label
+              style={{
+                cursor: 'pointer',
+                color: 'blue',
+                textDecoration: 'underline'
+              }}
+              onClick={(e) => setHideComments(true)}
+            >
+              Hide Comments
+            </Label>
+          </CardFooter>
+        )}
         <CardFooter>
           <Row>
             <Col sm={9} style={noPadding}>
