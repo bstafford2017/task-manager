@@ -20,7 +20,8 @@ import { connect } from 'react-redux'
 import { Link, useHistory } from 'react-router-dom'
 import { register } from './authActions'
 import { setErrors, clearErrors } from '../Error/errorActions'
-import { LOGIN_URL } from '../Routes'
+import { HOME_URL } from '../Routes'
+import { toast } from 'react-toastify'
 
 const Register = ({ register, error, setErrors, clearErrors, ...props }) => {
   const history = useHistory()
@@ -55,9 +56,10 @@ const Register = ({ register, error, setErrors, clearErrors, ...props }) => {
       if (password !== confirmPassword) {
         setErrors('Passwords do not match', null, null)
       } else {
+        toast.success('Registered user')
         register(user)
         clearErrors()
-        history.push(LOGIN_URL)
+        history.push(HOME_URL)
       }
     } else {
       setErrors('Please fill out the entire form', null, null)

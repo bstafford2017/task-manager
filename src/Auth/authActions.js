@@ -10,7 +10,7 @@ import {
   DELETE_USER,
   LOGIN_ERROR
 } from '../Actions'
-import { setErrors } from '../Error/errorActions'
+import { clearErrors, setErrors } from '../Error/errorActions'
 import axios from '../Http/index'
 
 // Setup config/headers and token
@@ -32,12 +32,13 @@ export const tokenConfig = (getState) => {
 export const login = (user) => async (dispatch) => {
   try {
     const response = await axios.post('/api/auth/login', user)
+    dispatch(clearErrors())
     dispatch({
       type: LOGIN_SUCCESS,
       payload: response.data
     })
-  } catch (err) {
-    setErrors(err.response.data, err.response.status, err.response.message)
+  } catch (e) {
+    dispatch(setErrors('Failed to login: ' + e.message))
     dispatch({
       type: LOGIN_ERROR
     })
@@ -46,17 +47,14 @@ export const login = (user) => async (dispatch) => {
 
 export const register = (user) => async (dispatch) => {
   try {
-    const response = await axios.post('/api/users/create', user)
+    const response = await axios.post('/api/users', user)
+    dispatch(clearErrors())
     dispatch({
       type: REGISTER_SUCCESS,
       payload: response.data
     })
-  } catch (err) {
-    setErrors(
-      err.response.data,
-      err.response.status,
-      'System Error: Failed to register'
-    )
+  } catch (e) {
+    dispatch(setErrors('Failed to register: ' + e.message))
     dispatch({
       type: REGISTER_ERROR
     })
@@ -70,16 +68,13 @@ export const updateUser = (updatedUser) => async (dispatch, getState) => {
       updatedUser,
       tokenConfig(getState)
     )
+    dispatch(clearErrors())
     dispatch({
       type: UPDATE_USER,
       payload: updatedUser
     })
-  } catch (err) {
-    setErrors(
-      err.response.data,
-      err.response.status,
-      'System Error: Failed to register'
-    )
+  } catch (e) {
+    dispatch(setErrors('Failed to update user: ' + e.message))
   }
 }
 
@@ -104,7 +99,8 @@ export const loadUser = () => async (dispatch, getState) => {
       type: USER_LOADED,
       payload: response.data
     })
-  } catch (err) {
+  } catch (e) {
+    dispatch(setErrors('Failed to register: ' + e.message))
     dispatch({
       type: AUTH_ERROR
     })

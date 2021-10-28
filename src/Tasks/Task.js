@@ -16,6 +16,7 @@ import { connect } from 'react-redux'
 import { Button } from 'reactstrap'
 import { addComment, deleteTask, updateTask } from './taskActions'
 import { toast } from 'react-toastify'
+import categories from '../Categories'
 
 const Task = (props) => {
   const [toggleEdit, setToggleEdit] = useState(false)
@@ -97,7 +98,6 @@ const Task = (props) => {
               <Label>{task.id}</Label>
             </FormGroup>
             <FormGroup row>
-              <Label style={bold}>Title: </Label>
               {toggleEdit ? (
                 <Input
                   id='title'
@@ -106,24 +106,32 @@ const Task = (props) => {
                   onChange={onChange}
                 />
               ) : (
-                <Label>{task.title}</Label>
+                <>
+                  <Label style={bold}>Title: </Label>
+                  <Label>{task.title}</Label>
+                </>
               )}
             </FormGroup>
             <FormGroup row>
-              <Label style={bold}>Category: </Label>
               {toggleEdit ? (
                 <Input
                   id='category'
-                  type='text'
+                  type='select'
                   value={task.category}
                   onChange={onChange}
-                />
+                >
+                  {categories.map((c) => (
+                    <option selected={c === task.category}>{c}</option>
+                  ))}
+                </Input>
               ) : (
-                <Label>{task.category}</Label>
+                <>
+                  <Label style={bold}>Category: </Label>
+                  <Label>{task.category}</Label>
+                </>
               )}
             </FormGroup>
             <FormGroup row>
-              <Label style={bold}>Description: </Label>
               {toggleEdit ? (
                 <Input
                   id='description'
@@ -132,26 +140,34 @@ const Task = (props) => {
                   onChange={onChange}
                 />
               ) : (
-                <Label>{task.description}</Label>
+                <>
+                  <Label style={bold}>Description: </Label>
+                  <Label>{task.description}</Label>
+                </>
               )}
             </FormGroup>
             <FormGroup row>
               <Label style={bold}>Created on: </Label>
               <Label>{new Date(task.date).toLocaleString()}</Label>
             </FormGroup>
-            <FormGroup row>
-              <Label style={bold}>Important: </Label>
-              {toggleEdit ? (
+            {toggleEdit ? (
+              <FormGroup check>
                 <Input
                   id='important'
                   type='checkbox'
                   value={task.important}
                   onChange={onChange}
                 />
-              ) : (
+                <Label style={bold} check>
+                  Important:{' '}
+                </Label>
+              </FormGroup>
+            ) : (
+              <FormGroup row>
+                <Label style={bold}>Important: </Label>
                 <Label>{task.important ? 'Yes' : 'No'}</Label>
-              )}
-            </FormGroup>
+              </FormGroup>
+            )}
           </Form>
           <Button
             sm={3}
@@ -159,7 +175,7 @@ const Task = (props) => {
             style={{ float: 'right' }}
             color='success'
           >
-            Edit
+            {toggleEdit ? 'Update' : 'Edit'}
           </Button>
         </CardBody>
         {!hideComments &&

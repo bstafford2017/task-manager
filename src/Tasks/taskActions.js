@@ -8,19 +8,19 @@ import {
 } from '../Actions'
 import axios from '../Http/index'
 import { tokenConfig } from '../Auth/authActions'
-import { setErrors } from '../Error/errorActions'
+import { clearErrors, setErrors } from '../Error/errorActions'
 
 export const getTasks = () => async (dispatch, getState) => {
   try {
     dispatch(setTasksLoading())
     const response = await axios.get('/api/tasks', tokenConfig(getState))
+    dispatch(clearErrors())
     dispatch({
       type: TASKS_LOADED,
       payload: response.data
     })
-  } catch (err) {
-    alert(err)
-    dispatch(setErrors('', '', 'System Error: Failed to get tasks.'))
+  } catch (e) {
+    dispatch(setErrors('Failed to create task: ' + e.message))
     dispatch({
       type: AUTH_ERROR
     })
@@ -34,18 +34,13 @@ export const addTask = (addTask) => async (dispatch, getState) => {
       addTask,
       tokenConfig(getState)
     )
+    dispatch(clearErrors())
     dispatch({
       type: ADD_TASK,
       payload: response.data
     })
-  } catch (err) {
-    dispatch(
-      setErrors(
-        err.response.data,
-        err.response.status,
-        'System Error: Failed to add task.'
-      )
-    )
+  } catch (e) {
+    dispatch(setErrors('Failed to create task: ' + e.message))
     dispatch({
       type: AUTH_ERROR
     })
@@ -55,18 +50,13 @@ export const addTask = (addTask) => async (dispatch, getState) => {
 export const updateTask = (task) => async (dispatch, getState) => {
   try {
     await axios.post(`/api/tasks/${task.id}`, task, tokenConfig(getState))
+    dispatch(clearErrors())
     dispatch({
       type: UPDATE_TASK,
       payload: task
     })
-  } catch (err) {
-    dispatch(
-      setErrors(
-        err.response.data,
-        err.response.status,
-        'System Error: Failed to delete task.'
-      )
-    )
+  } catch (e) {
+    dispatch(setErrors('Failed to create task: ' + e.message))
     dispatch({
       type: AUTH_ERROR
     })
@@ -76,18 +66,13 @@ export const updateTask = (task) => async (dispatch, getState) => {
 export const deleteTask = (id) => async (dispatch, getState) => {
   try {
     await axios.delete(`/api/tasks/${id}`, tokenConfig(getState))
+    dispatch(clearErrors())
     dispatch({
       type: DELETE_TASK,
       payload: id
     })
-  } catch (err) {
-    dispatch(
-      setErrors(
-        err.response.data,
-        err.response.status,
-        'System Error: Failed to delete task.'
-      )
-    )
+  } catch (e) {
+    dispatch(setErrors('Failed to create task: ' + e.message))
     dispatch({
       type: AUTH_ERROR
     })
@@ -97,14 +82,9 @@ export const deleteTask = (id) => async (dispatch, getState) => {
 export const addComment = (taskId, comment) => async (dispatch, getState) => {
   try {
     await axios.post(`/api/comments/${taskId}`, comment, tokenConfig(getState))
-  } catch (err) {
-    dispatch(
-      setErrors(
-        err.response.data,
-        err.response.status,
-        'System Error: Failed to add comment.'
-      )
-    )
+    dispatch(clearErrors())
+  } catch (e) {
+    dispatch(setErrors('Failed to create task: ' + e.message))
   }
 }
 

@@ -32,8 +32,6 @@ const TaskList = ({ getTasks, loading, tasks, ...props }) => {
         task.description.includes(search)
       : true
 
-  if (loading) return <Spinner color='success' style={spinnerStyles} />
-
   return (
     <Container fluid>
       <h2 style={{ textAlign: 'center' }}>Task List</h2>
@@ -51,11 +49,15 @@ const TaskList = ({ getTasks, loading, tasks, ...props }) => {
           onChange={onChange}
         />
       </Col>
-      <Row>
-        {tasks.filter(matching).map((task) => (
-          <Task key={task.id} task={task} />
-        ))}
-      </Row>
+      {loading ? (
+        <Spinner color='success' style={spinnerStyles} />
+      ) : (
+        <Row>
+          {tasks.filter(matching).map((task) => (
+            <Task key={task.id} task={task} />
+          ))}
+        </Row>
+      )}
     </Container>
   )
 }
