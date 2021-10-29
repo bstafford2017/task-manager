@@ -214,6 +214,7 @@ const Settings = ({
                     className='col-12 m-2'
                     color='success'
                     onClick={onUpdateUser}
+                    disabled
                   >
                     Update
                   </Button>

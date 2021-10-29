@@ -41,7 +41,6 @@ const Login = ({ login, setErrors, clearErrors, error, ...props }) => {
   const onSubmit = async (e) => {
     if (username && password) {
       await login(user)
-      clearErrors()
       history.push(HOME_URL)
     } else {
       setErrors('Please fill out the entire form', null, null)
