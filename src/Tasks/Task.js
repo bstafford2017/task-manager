@@ -29,11 +29,6 @@ const Task = (props) => {
     fontWeight: 'bold'
   }
 
-  const noPadding = {
-    paddingLeft: 0,
-    paddingRight: 0
-  }
-
   const onToggle = (e) => {
     if (toggleEdit) {
       onUpdate(e)
@@ -224,12 +219,15 @@ const Task = (props) => {
         )}
         <CardFooter>
           <Row>
-            <Col sm={9} style={noPadding}>
-              <Input type='text' value={comment} onChange={onChangeComment} />
-            </Col>
-            <Col sm={3} style={noPadding}>
-              <Button onClick={submitComment}>Comment</Button>
-            </Col>
+            <Input
+              className='col-md-7'
+              type='text'
+              value={comment}
+              onChange={onChangeComment}
+            />
+            <Button className='col-md-5' onClick={submitComment}>
+              Comment
+            </Button>
           </Row>
         </CardFooter>
       </Card>
