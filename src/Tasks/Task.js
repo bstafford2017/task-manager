@@ -64,6 +64,22 @@ const Task = (props) => {
     setComment('')
   }
 
+  const generateComment = (comment) => (
+    <CardFooter>
+      <Row>
+        <Col sm={3}>
+          <Label style={bold}>{comment.user}</Label>
+        </Col>
+        <Col sm={9}>
+          <Label style={{ color: '#222' }}>{comment.text}</Label>
+        </Col>
+      </Row>
+      <Label style={{ fontStyle: 'italic', color: 'grey' }}>
+        Posted on {new Date(comment.createdOn).toLocaleString()}
+      </Label>
+    </CardFooter>
+  )
+
   return (
     <Col sm={12} md={6}>
       <Card>
@@ -173,23 +189,10 @@ const Task = (props) => {
             {toggleEdit ? 'Update' : 'Edit'}
           </Button>
         </CardBody>
-        {!hideComments &&
-          comments.map((c) => (
-            <CardFooter>
-              <Row>
-                <Col sm={3}>
-                  <Label style={bold}>{c.user}</Label>
-                </Col>
-                <Col sm={9}>
-                  <Label style={{ color: '#222' }}>{c.text}</Label>
-                </Col>
-              </Row>
-              <Label style={{ fontStyle: 'italic', color: 'grey' }}>
-                Posted on {new Date(c.createdOn).toLocaleString()}
-              </Label>
-            </CardFooter>
-          ))}
-        {hideComments && comments.length > 0 && (
+        {hideComments
+          ? comments.filter((_, i) => i === 0).map(generateComment)
+          : comments.map(generateComment)}
+        {hideComments ? (
           <CardFooter>
             <Label
               style={{
@@ -202,8 +205,7 @@ const Task = (props) => {
               Show Comments
             </Label>
           </CardFooter>
-        )}
-        {!hideComments && comments.length > 0 && (
+        ) : (
           <CardFooter>
             <Label
               style={{
@@ -219,15 +221,17 @@ const Task = (props) => {
         )}
         <CardFooter>
           <Row>
-            <Input
-              className='col-md-7'
-              type='text'
-              value={comment}
-              onChange={onChangeComment}
-            />
-            <Button className='col-md-5' onClick={submitComment}>
-              Comment
-            </Button>
+            <Input type='textarea' value={comment} onChange={onChangeComment} />
+          </Row>
+          <Row>
+            <Col
+              sm={{
+                offset: 8,
+                size: 4
+              }}
+            >
+              <Button onClick={submitComment}>Comment</Button>
+            </Col>
           </Row>
         </CardFooter>
       </Card>
