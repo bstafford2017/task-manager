@@ -224,14 +224,9 @@ const Task = (props) => {
             <Input type='textarea' value={comment} onChange={onChangeComment} />
           </Row>
           <Row>
-            <Col
-              sm={{
-                offset: 8,
-                size: 4
-              }}
-            >
-              <Button onClick={submitComment}>Comment</Button>
-            </Col>
+            <Button className='col-sm-4 offset-sm-8' onClick={submitComment}>
+              Comment
+            </Button>
           </Row>
         </CardFooter>
       </Card>
