@@ -17,6 +17,8 @@ import { Button } from 'reactstrap'
 import { addComment, deleteTask, updateTask } from './taskActions'
 import { toast } from 'react-toastify'
 import categories from '../Categories'
+import { AiOutlineClose } from 'react-icons/ai'
+import { BsCheck, BsPencil } from 'react-icons/bs'
 
 const Task = (props) => {
   const [toggleEdit, setToggleEdit] = useState(false)
@@ -91,15 +93,12 @@ const Task = (props) => {
               borderColor: 'rgb(255,0,0)',
               alignItems: 'center',
               justifyContent: 'center',
-              width: 38,
-              height: 38,
               backgroundColor: 'rgb(255,0,0)',
-              borderRadius: 50,
               float: 'right'
             }}
             onClick={onDelete}
           >
-            x
+            <AiOutlineClose />
           </Button>
         </CardHeader>
         <CardBody>
@@ -186,7 +185,7 @@ const Task = (props) => {
             style={{ float: 'right' }}
             color='success'
           >
-            {toggleEdit ? 'Update' : 'Edit'}
+            {toggleEdit ? <BsCheck /> : <BsPencil />}
           </Button>
         </CardBody>
         {hideComments

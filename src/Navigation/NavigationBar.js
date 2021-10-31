@@ -19,6 +19,10 @@ import {
   TASKLIST_URL,
   SETTINGS_URL
 } from '../Routes'
+import { HiOutlineLogout, HiOutlineLogin } from 'react-icons/hi'
+import { BsFillGearFill, BsPencilSquare } from 'react-icons/bs'
+import { FaList } from 'react-icons/fa'
+import { AiOutlineUserAdd } from 'react-icons/ai'
 
 const NavigationBar = ({
   isAuthenticated,
@@ -49,24 +53,24 @@ const NavigationBar = ({
             <Nav navbar>
               <NavItem>
                 <NavLink to={HOME_URL} tag={RRNavLink}>
-                  Create
+                  Create <BsPencilSquare />
                 </NavLink>
               </NavItem>
               <NavItem>
                 <NavLink to={TASKLIST_URL} tag={RRNavLink}>
-                  List
+                  List <FaList />
                 </NavLink>
               </NavItem>
               <NavItem>
                 <NavLink to={SETTINGS_URL} tag={RRNavLink}>
-                  Settings
+                  Settings <BsFillGearFill />
                 </NavLink>
               </NavItem>
             </Nav>
             <Nav className='ml-auto' navbar>
               <NavItem>
                 <NavLink href='#' onClick={signOut}>
-                  Log Out
+                  Log Out <HiOutlineLogout />
                 </NavLink>
               </NavItem>
             </Nav>
@@ -75,12 +79,12 @@ const NavigationBar = ({
           <Nav navbar>
             <NavItem>
               <NavLink to={LOGIN_URL} tag={RRNavLink}>
-                Login
+                Login <HiOutlineLogin />
               </NavLink>
             </NavItem>
             <NavItem>
               <NavLink to={REGISTER_URL} tag={RRNavLink}>
-                Register
+                Register <AiOutlineUserAdd />
               </NavLink>
             </NavItem>
           </Nav>
