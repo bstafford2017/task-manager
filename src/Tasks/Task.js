@@ -109,6 +109,10 @@ const Task = (props) => {
               <Label>{task.id}</Label>
             </FormGroup>
             <FormGroup row>
+              <Label style={bold}>Created by: </Label>
+              <Label>{task.username || 'qwe'}</Label>
+            </FormGroup>
+            <FormGroup row>
               {toggleEdit ? (
                 <Input
                   id='title'
@@ -177,6 +181,44 @@ const Task = (props) => {
               <FormGroup row>
                 <Label style={bold}>Important: </Label>
                 <Label>{task.important ? 'Yes' : 'No'}</Label>
+              </FormGroup>
+            )}
+            {toggleEdit ? (
+              <FormGroup row>
+                <Input
+                  id='status'
+                  type='select'
+                  value={task.status}
+                  onChange={onChange}
+                >
+                  <option>Pending</option>
+                  <option>In Progress</option>
+                  <option>Complete</option>
+                </Input>
+              </FormGroup>
+            ) : (
+              <FormGroup row>
+                <Label style={bold}>Status: </Label>
+                <Label>{task.status || 'Pending'}</Label>
+              </FormGroup>
+            )}
+            {toggleEdit ? (
+              <FormGroup row>
+                <Input
+                  id='priority'
+                  type='select'
+                  value={task.priority}
+                  onChange={onChange}
+                >
+                  <option>Low</option>
+                  <option>Medium</option>
+                  <option>High</option>
+                </Input>
+              </FormGroup>
+            ) : (
+              <FormGroup row>
+                <Label style={bold}>Priority: </Label>
+                <Label>{task.priority || 'Low'}</Label>
               </FormGroup>
             )}
           </Form>

@@ -131,6 +131,31 @@ const TaskList = ({ getTasks, loading, tasks, ...props }) => {
                 <Input type='date' onChange={onCreateAfter} />
               </Row>
               <Row>
+                <Label>Status:</Label>
+                <Input type='select'>
+                  <option>-</option>
+                  <option>Pending</option>
+                  <option>In Progress</option>
+                  <option>Complete</option>
+                </Input>
+              </Row>
+              <Row>
+                <Label>Priority:</Label>
+                <Input type='select'>
+                  <option>-</option>
+                  <option>Low</option>
+                  <option>Medium</option>
+                  <option>High</option>
+                </Input>
+              </Row>
+              <Row>
+                <Label>Username:</Label>
+                <Input type='select'>
+                  <option>-</option>
+                  <option>qwe</option>
+                </Input>
+              </Row>
+              <Row>
                 <Button className='col-sm-4 offset-sm-4' onClick={onClear}>
                   Clear
                 </Button>

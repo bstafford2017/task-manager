@@ -124,6 +124,22 @@ const CreateTask = ({ addTask, error, setErrors, clearErrors, ...props }) => {
                     Important
                   </Label>
                 </FormGroup>
+                <FormGroup>
+                  <Row>
+                    <Col sm={12} md={6}>
+                      <Label>Priority:</Label>
+                      <Input type='select'>
+                        <option>Low</option>
+                        <option>Medium</option>
+                        <option>High</option>
+                      </Input>
+                    </Col>
+                    <Col sm={12} md={6}>
+                      <Label>Required by:</Label>
+                      <Input type='date' />
+                    </Col>
+                  </Row>
+                </FormGroup>
               </Form>
             </CardBody>
             <CardFooter>
