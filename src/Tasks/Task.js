@@ -19,6 +19,7 @@ import { toast } from 'react-toastify'
 import categories from '../Categories'
 import { AiOutlineClose } from 'react-icons/ai'
 import { BsCheck, BsPencil } from 'react-icons/bs'
+import { BsFillCaretRightFill, BsFillCaretUpFill } from 'react-icons/bs'
 
 const Task = (props) => {
   const [toggleEdit, setToggleEdit] = useState(false)
@@ -84,7 +85,7 @@ const Task = (props) => {
 
   return (
     <Col sm={12} md={6}>
-      <Card>
+      <Card className='m-3'>
         <CardHeader>
           <h3 style={{ display: 'inline' }}>{task.title}</h3>
           <Button
@@ -201,6 +202,7 @@ const Task = (props) => {
               }}
               onClick={(e) => setHideComments(false)}
             >
+              <BsFillCaretRightFill />
               Show Comments
             </Label>
           </CardFooter>
@@ -214,6 +216,7 @@ const Task = (props) => {
               }}
               onClick={(e) => setHideComments(true)}
             >
+              <BsFillCaretUpFill />
               Hide Comments
             </Label>
           </CardFooter>
