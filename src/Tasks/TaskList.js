@@ -15,10 +15,11 @@ import Task from './Task'
 import { getTasks } from '../Tasks/taskActions'
 import { Spinner } from 'reactstrap'
 import Categories from '../Categories'
-import { BsFillCaretRightFill } from 'react-icons/bs'
+import { BsFillCaretRightFill, BsFillCaretLeftFill } from 'react-icons/bs'
 
 const TaskList = ({ getTasks, loading, tasks, ...props }) => {
   const [search, setSearch] = useState('')
+  const [displayFilter, setDisplayFilter] = useState(true)
   const [selectedCategory, setSelectedCategory] = useState('')
   const [createBefore, setCreateBefore] = useState('')
   const [createAfter, setCreateAfter] = useState('')
@@ -79,52 +80,75 @@ const TaskList = ({ getTasks, loading, tasks, ...props }) => {
             </Row>
           )}
         </Col>
-        <Col
-          sm={4}
-          style={{
-            backgroundColor: 'rgb(155,155,155)'
-          }}
-        >
-          <CardBody>
-            <Button>
+        {displayFilter ? (
+          <Col sm={1}>
+            <Button
+              style={{ float: 'right' }}
+              onClick={() => setDisplayFilter(!displayFilter)}
+            >
               <BsFillCaretRightFill />
             </Button>
-            <h3 style={{ textAlign: 'center' }}>Filter</h3>
-            <Row>
-              <Label>Search:</Label>
-              <Input
-                type='text'
-                value={search}
-                placeholder='Search tasks...'
-                onChange={onChange}
-              />
-            </Row>
-            <Row>
-              <Label>Category:</Label>
-              <Input
-                type='select'
-                onChange={onCategory}
-                value={selectedCategory}
-              >
-                {Categories.map((c) => (
-                  <option>{c}</option>
-                ))}
-                <option selected={true}>None</option>
-              </Input>
-            </Row>
-            <Row>
-              <Label>Created before:</Label>
-              <Input type='date' onChange={onCreateBefore} />
-              <Label>Created after:</Label>
-              <Input type='date' onChange={onCreateAfter} />
-            </Row>
-            <Row>
-              <Button className='col-sm-4 offset-sm-4' onClick={onClear}>
-                Clear
-              </Button>
-            </Row>
-          </CardBody>
-        </Col>
+          </Col>
+        ) : (
+          <Col sm={3}>
+            <Button
+              style={{ float: 'right' }}
+              onClick={() => setDisplayFilter(!displayFilter)}
+            >
+              <BsFillCaretLeftFill />
+            </Button>
+          </Col>
+        )}
+        {displayFilter && (
+          <Col
+            sm={3}
+            style={{
+              backgroundColor: 'rgb(155,155,155)'
+            }}
+          >
+            <CardBody>
+              {/* <Button onClick={() => setDisplayFilter(!displayFilter)}>
+              <BsFillCaretRightFill />
+            </Button> */}
+              <>
+                <h3 style={{ textAlign: 'center' }}>Filter</h3>
+                <Row>
+                  <Label>Search:</Label>
+                  <Input
+                    type='text'
+                    value={search}
+                    placeholder='Search tasks...'
+                    onChange={onChange}
+                  />
+                </Row>
+                <Row>
+                  <Label>Category:</Label>
+                  <Input
+                    type='select'
+                    onChange={onCategory}
+                    value={selectedCategory}
+                  >
+                    {Categories.map((c) => (
+                      <option>{c}</option>
+                    ))}
+                    <option selected={true}>None</option>
+                  </Input>
+                </Row>
+                <Row>
+                  <Label>Created before:</Label>
+                  <Input type='date' onChange={onCreateBefore} />
+                  <Label>Created after:</Label>
+                  <Input type='date' onChange={onCreateAfter} />
+                </Row>
+                <Row>
+                  <Button className='col-sm-4 offset-sm-4' onClick={onClear}>
+                    Clear
+                  </Button>
+                </Row>
+              </>
+            </CardBody>
+          </Col>
+        )}
       </Row>
     </>
   )
